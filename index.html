@@ -1,0 +1,2653 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+  <head>
+    <title>Drakar &amp; Demoner '91 Karaktärsgenerator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+var attributes = {
+  "sty": "STY",
+  "fys": "FYS",
+  "smi": "SMI",
+  "int": "INT",
+  "psy": "PSY",
+  "kar": "KAR",
+  "sto": "STO"
+};
+
+var races = {
+  "anka": {
+    "bp": 0,
+    "sty": -4,
+    "fys": 2,
+    "smi": 2,
+    "int": 0,
+    "psy": 0,
+    "kar": -3,
+    "sto": 5,
+    "min_sto": 3,
+    "max_sto": 6,
+    "ff": -2,
+    "min_age" : {
+      "ung": 16,
+      "mogen": 21,
+      "medelålders": 41,
+      "gammal": 61
+    },
+    "description": "Tänk dig en stor anka med armar istället för vingar - \n\
+så ser ankan ut i Drakar och Demoner ut. Ankor är små och klena men å andra\n\
+sidan uthålliga och smidiga. De passar sålunda inte särskilt bra som krigare, \n\
+utan bättre som sjöfarare, handelsmän, tjuvar, jägare, eller magiker. \n\
+   Alla ankor har automatiskt FV 20 i färdigheten Simma. De har dessutom automatiskt \n\
++4 på sitt FV i Smyga."
+  },
+  "dvärg": {
+    "bp": 25,
+    "sty": 3,
+    "fys": 2,
+    "smi": 0,
+    "int": 0,
+    "psy": 2,
+    "kar": 0,
+    "sto": 6,
+    "min_sto": 3,
+    "max_sto": 9,
+    "ff": -2,
+    "min_age" : {
+      "ung": 21,
+      "mogen": 41,
+      "medelålders": 151,
+      "gammal": 251
+    },
+    "description": "Dvärgar är korta och kraftiga och har oftast stora helskägg\n\
+som de är mycket stolta över. Dvärgarnas stora passion är guld och ädla stenar\n\
+och de lever därför oftast av gruvdrift och hantverk i stora underjordiska \n\
+städer. De är mycket skickliga på det mesta som har med själva jordens element \n\
+att göra; smide, gruvdrift, stenhuggeri, etc. De har dessutom perfekt mörkersyn.\n\
+Dvärgar är både starkare, uthålligare och kraftigare än människor och blir därför\n\
+oftast utmärkta krigare. Normalt blir dvärgar inte magiker.\n\
+  Alla dvärgar får automatiskt FV 5 i färdigheten Geologi. Geologi räknas för dom\n\
+som en primär färdighet."
+  },
+  "halvalv": {
+    "bp":15,
+    "sty": 0,
+    "fys": 0,
+    "smi": 2,
+    "int": 0,
+    "psy": 0,
+    "kar": 1,
+    "sto": 13,
+    "min_sto": 8,
+    "max_sto": 18,
+    "ff": 0,
+    "min_age" : {
+      "ung": 30,
+      "mogen": 41,
+      "medelålders": 71,
+      "gammal": 101
+    },
+    "description": "En halvalv är avkomman av en alv och en människa men påminner\n\
+mer om människor än om alver. De är något smidigare än människor och har ungefär \n\
+dubbelt så bra hörsel och syn som dessa. De har inte samma odödlighet som alverna\n\
+men lever ändå mycket länge. De passar utmärkt till alla yrken.\n\
+  Alla halvalver får automatiskt +2 på sina FV i färdighetern Upptäcka fara och Lyssna."
+  },
+  "halvlängdsman": {
+    "bp": 15,
+    "sty": -4,
+    "fys": 3,
+    "smi": 3,
+    "int": 0,
+    "psy": 2,
+    "kar": 0,
+    "sto": 4,
+    "min_sto": 3,
+    "max_sto": 5,
+    "ff": -2,
+    "min_age" : {
+      "ung": 20,
+      "mogen": 31,
+      "medelålders": 61,
+      "gammal": 76
+    },
+    "description": "Halvlängdsmän blir inte mycket mer än en meter långa och de lever\n\
+oftast i lugn och ro så långt bort från faror och äventyr som de kan komma. Då de väl \n\
+ställs inför svåra situationer kan de emellertid visa sig vara förvånansvärt uthålliga och\n\
+modiga. Halvlängdsmän blir på grund av sin ringa styrka sällan krigare, men deras stora\n\
+smidighet gör att de passar utmärkt som tjuvar. De blir normalt inte magiker.\n\
+  Alla halvlängdsmän får automatiskt +4 på sitt FV i färdigheten Gömma sig."
+  },
+  "halvorch": {
+    "bp": 10,
+    "sty": 2,
+    "fys": 2,
+    "smi": -1,
+    "int": 0,
+    "psy": 0,
+    "kar": -3,
+    "sto": 11,
+    "min_sto": 6,
+    "max_sto": 16,
+    "ff": 0,
+    "min_age" : {
+      "ung": 12,
+      "mogen": 19,
+      "medelålders": 31,
+      "gammal": 46
+    },
+    "description": "Halvorcher är korsningar mellan orcher, grymma, hårdföra och \n\
+blodtörstiga varelser med svart hud, huggtänder och klor, och människor. Halvorcher\n\
+är dock mera som människor med orchiska drag än tvärtom. De är betydligt starkare\n\
+och kraftigare än människor, men har ofta ett ganska motbjudande utseende med sjukligt\n\
+gul-brun hy, knotiga lemmar och gula ögonvitor. Halvorcher passar bra till alla yrken.prototype\n\
+  Alla halvorcher får automatiskt +4 på sitt FV i färdigheten Slagsmål."
+  },
+  "människa": {
+    "bp": 10,
+    "sty": 0,
+    "fys": 0,
+    "smi": 0,
+    "int": 0,
+    "psy": 0,
+    "kar": 0,
+    "sto": 13,
+    "min_sto": 8,
+    "max_sto": 18,
+    "ff": 0,
+    "min_age" : {
+      "ung": 16,
+      "mogen": 21,
+      "medelålders": 46,
+      "gammal": 61
+    },
+    "description": "I de flesta fantasy-världar är människor det vanligaste folkslaget,\n\
+medan alver, dvärgar och halvlängdsmän lever isolerade i avlägsna skogs- och bergstrakter.\n\
+Tänk dock på att det är meningen att spelarnas rollpersoner skall vara lite speciella, \n\
+lite utöver det vanliga. Människor passar bra till alla yrken."
+  },
+};
+
+var occupations = {
+  "bard": {
+    "sty": 0,
+    "fys": 0,
+    "smi": 12,
+    "int": 0,
+    "psy": 0,
+    "kar": 14,
+    "sto": 0    
+  },
+  "helare": {
+    "sty": 0,
+    "fys": 0,
+    "smi": 0,
+    "int": 12,
+    "psy": 12,
+    "kar": 0,
+    "sto": 0    
+  },
+  "krigare": {
+    "sty": 14,
+    "fys": 12,
+    "smi": 0,
+    "int": 0,
+    "psy": 0,
+    "kar": 0,
+    "sto": 0    
+  },
+  "lärd_man": {
+    "sty": 0,
+    "fys": 0,
+    "smi": 0,
+    "int": 16,
+    "psy": 0,
+    "kar": 0,
+    "sto": 0    
+  },
+  "lönnmördare": {
+    "sty": 0,
+    "fys": 0,
+    "smi": 14,
+    "int": 0,
+    "psy": 12,
+    "kar": 0,
+    "sto": 0    
+  },
+  "magiker": {
+    "sty": 0,
+    "fys": 0,
+    "smi": 0,
+    "int": 12,
+    "psy": 14,
+    "kar": 0,
+    "sto": 0    
+  },
+  "munk": {
+    "sty": 0,
+    "fys": 0,
+    "smi": 0,
+    "int": 12,
+    "psy": 12,
+    "kar": 0,
+    "sto": 0    
+  },
+  "sjöfarare": {
+    "sty": 0,
+    "fys": 12,
+    "smi": 12,
+    "int": 0,
+    "psy": 0,
+    "kar": 0,
+    "sto": 0    
+  },
+  "riddare": {
+    "sty": 14,
+    "fys": 12,
+    "smi": 0,
+    "int": 0,
+    "psy": 12,
+    "kar": 0,
+    "sto": 0    
+  },
+  "tjuv": {
+    "sty": 0,
+    "fys": 0,
+    "smi": 16,
+    "int": 0,
+    "psy": 0,
+    "kar": 0,
+    "sto": 0    
+  },
+  "utbygdsjägare": {
+    "sty": 0,
+    "fys": 12,
+    "smi": 12,
+    "int": 0,
+    "psy": 12,
+    "kar": 0,
+    "sto": 0
+  }
+};
+
+
+var ages = {
+  "ung": {
+    "sty": -1,
+    "fys": 1,
+    "smi": 1,
+    "int": 0,
+    "psy": -1,
+    "kar": 0,    
+    "sto": 0,
+    "ep": 150,
+    "startkapital": 1.0,
+    "max_fv": 13
+  },
+  "mogen": {
+    "sty": 0,
+    "fys": 0,
+    "smi": 0,
+    "int": 0,
+    "psy": 0,
+    "kar": 0,    
+    "sto": 0,
+    "ep": 200,
+    "startkapital": 1.5,
+    "max_fv": 15
+  },
+  "medelålders": {
+    "sty": -2,
+    "fys": -1,
+    "smi": -1,
+    "int": 1,
+    "psy": 2,
+    "kar": 1,    
+    "sto": 0,
+    "ep": 250,
+    "startkapital": 2.0,
+    "max_fv": 17
+  },
+  "gammal": {
+    "sty": -5,
+    "fys": -3,
+    "smi": -3,
+    "int": 1,
+    "psy": 4,
+    "kar": 1,    
+    "sto": 0,
+    "ep": 300,
+    "startkapital": 2.5,
+    "max_fv": 19
+  }
+};
+
+var primary_skills = {
+  "bluffa": "kar",
+  "finna_dolda_ting": "int",
+  "första_hjälpen": "int",
+  "gömma_sig": "int",
+  "hoppa": "smi",
+  "klättra": "smi",
+  "köpslå": "kar",
+  "lyssna": "int",
+  "ls_modersmål": "int",
+  "rida": "smi",
+  "sjunga": "kar",
+  "slagsmål": "sty",
+  "smyga": "smi",
+  "spåra": "int",
+  "stjäla_föremål": "smi",
+  "tala_modersmål": "int",
+  "upptäcka_fara": "psy",
+  "värdera": "int",
+  "övertala": "kar"
+};
+
+var secondary_skills = {
+  "administration": { "name": "Administration", "attribute": "int"},
+  "akrobatik": { "name": "Akrobatik", "attribute": "smi"},
+  "alkemi": { "name": "Alkemi", "attribute": "int"},
+  "astrologi": { "name": "Astrologi", "attribute" : "int"},
+  "avväpna": { "name": "Avväpna", "attribute" : "smi"},
+  "buktala": { "name": "Buktala", "attribute" : "psy"},
+  "bärsärkagång": { "name": "Bärsärkargång", "attribute" : "psy"},
+  "dans": { "name": "Dans", "attribute": "smi"},
+  "djurhelning": { "name": "Djurhelning", "attribute": "int"},
+  "djurträning": { "name": "Djurträning", "attribute": "psy"},
+  "dolk": { "name": "Dolk", "attribute" : "smi"},
+  "dra vapen": { "name": "Dra vapen", "attribute" : "smi"},
+  "drogkunskap": { "name": "Drogkunskap", "attribute": "int"},
+  "förfalskning": { "name": "Förfalskning", "attribute": "int"},
+  "geografi": { "name": "Geografi", "attribute": "int"},
+  "geologi": { "name": "Geologi", "attribute": "int"},
+  "giftkunskap": { "name": "Giftkunskap", "attribute": "int"},
+  "gyckelkonster": { "name": "Gyckelkonster", "attribute": "smi"},
+  "hantera fällor": { "name": "Hantera fällor", "attribute": "smi"},
+  "hantverk": { "name": "Hantverk", "attribute": ""},
+  "hasardspel": { "name": "Hasardspel", "attribute": "psy"},
+  "heraldik": { "name": "Heraldik", "attribute": "int"},
+  "historia": { "name": "Historia", "attribute": "int"},
+  "hypnotisera": { "name": "Hypnotisera", "attribute": "psy"},
+  "knopar": { "name": "Knopar", "attribute": "smi"},
+  "kulturkännedom": { "name": "Kulturkännedom", "attribute": "int"},
+  "kunskap om demoner": { "name": "Kunskap om demoner", "attribute": "int"},
+  "kunskap om magi": { "name": "Kunskap om magi", "attribute": "int"},
+  "kunskap om odöda": { "name": "Kunskap om odöda", "attribute": "int"},
+  "känna magi": { "name": "Känna magi", "attribute": "psy"},
+  "låsdyrkning": { "name": "Låsdyrkning", "attribute": "smi"},
+  "läkekonst": { "name": "Läkekonst", "attribute": "int"},
+  "läppläsning": { "name": "Läppläsning", "attribute": "int"},
+  "ls_främmande_språk": { "name": "L/S Främmande Språk", "attribute": "int"},
+  "magisk_kanalisering": { "name": "Magisk kanalisering", "attribute": "int"},
+  "magiskola_animism": { "name": "Animism", "attribute": "int"},
+  "magiskola_elementarmagi": { "name": "Elementarmagi", "attribute": "int"},
+  "magiskola_mentalism": { "name": "Mentalism", "attribute": "int"},
+  "massage": { "name": "Massage", "attribute": "smi"},
+  "muta": { "name": "Muta", "attribute": "kar"},
+  "målning": { "name": "Målning", "attribute": "smi"},
+  "navigera": { "name": "Navigera", "attribute": "int"},
+  "orientering": { "name": "Orientering", "attribute": "int"},
+  "räkning": { "name": "Räkning", "attribute": "int"},
+  "schack_brädspel": { "name": "Shack & Brädspel", "attribute": "int"},
+  "simma": { "name": "Simma", "attribute": "smi"},
+  "sjökunnighet": { "name": "Sjökunnighet", "attribute": "int"},
+  "skådespeleri": { "name": "Skådespeleri", "attribute": "kar"},
+  "spela_instrument": { "name": "Spela instrument", "attribute": "kar"},
+  "språkkunskap": { "name": "Språkkunskap", "attribute": "int"},
+  "spå väder": { "name": "Spå väder", "attribute": "int"},
+  "stavhopp": { "name": "Stavhopp", "attribute": "smi"},
+  "stridskonster": { "name": "Stridskonster", "attribute": "smi"},
+  "tala_främmande_språk": { "name": "Tala främmande språk", "attribute": "int"},
+  "teckenspråk": { "name": "Teckenspråk", "attribute": "int"},
+  "trästav": { "name": "Trästav", "attribute": "smi"},
+  "två_vapen": { "name" : "Två vapen", "attribute": ""},
+  "under_världen": { "name": "Undre världen", "attribute" : "int"},
+  "vapen_bastardsvärd": { "name": "Bastardsvärd", "attribute": "sty"} ,
+  "vapen_bredsvärd": { "name": "Bredsvärd", "attribute": "sty"},
+  "vapen_falchion": { "name": "Falchion", "attribute": "sty"},
+  "vapen_kortsvärd": { "name": "Kortsvärd", "attribute": "sty"},
+  "vapen_kroksabel": { "name": "Kroksabel", "attribute": "sty"},
+  "vapen_långsvärd": { "name": "Långsvärd", "attribute": "sty"},
+  "vapen_sabel": { "name": "Sabel", "attribute": "sty"},
+  "vapen_stickvärja": { "name": "Stickvärja", "attribute": "sty"},
+  "vapen_värja": { "name": "Värja", "attribute": "sty"},
+  "vapen_hjälmkrossare": { "name": "Hjälmkrossare", "attribute": "sty"},
+  "vapen_klubba": { "name": "Klubba", "attribute": "sty"},
+  "vapen_knogjärn": { "name": "Knogjärn", "attribute": "sty"},
+  "vapen_morgonstjärna": { "name": "Morgonstjärna", "attribute": "sty"},
+  "vapen_spikklubba": { "name": "Spikklubba", "attribute": "sty"},
+  "vapen_stridshammare": { "name": "Stridshammare", "attribute": "sty"},
+  "vapen_stridsklubba": { "name": "Stridsklubba", "attribute": "sty"},
+  "vapen_tung_spikklubba": { "name": "Tung spikklubba", "attribute": "sty"},
+  "vapen_tung_träklubba": { "name": "Tung träklubba", "attribue": "sty"},
+  "vapen_bredyxa": { "name": "Bredyxa", "attribute": "sty"},
+  "vapen_handyxa": { "name": "Handyxa", "attribute": "sty"},
+  "vapen_korpnäbb": { "name": "Korpnäbb", "attribute": "sty"},
+  "vapen_stridsyxa": { "name": "Stridsyxa", "attribute": "sty"},
+  "vapen_flamberge": { "name": "Flamberge", "attribute": "sty"},
+  "vapen_skäggyxa": { "name": "Skäggyxa", "attribute": "sty"},
+  "vapen_tvåhandsgissel": { "name": "Tvåhandsgissel", "attribute": "sty"},
+  "vapen_tvåhandshammare": { "name": "Tvåhandshammare", "attribute": "sty"},
+  "vapen_tvåhandssvärd": { "name": "Tvåhandssvärd", "attribute": "sty"},
+  "vapen_tvåhandsyxa": { "name": "Tvåhandsyxa", "attribute": "sty"},
+  "vapen_liten_trädstam": { "name": "Liten trädsatam", "attribute": "sty"},
+  "vapen_stor_trädstam": { "name": "Stor trädstam", "attribute": "sty"},
+  "vapen_jaktspjut": { "name": "Jaktspjut", "attribute": "sty"},
+  "vapen_kortspjut": { "name": "Kortspjut", "attribute": "sty"},
+  "vapen_lans": { "name": "Lans", "attribute": "sty"},
+  "vapen_långspjut": { "name": "Långspjut", "attribute": "sty"},
+  "vapen_lätt_lans": { "name": "Lätt lans", "attribute": "sty"},
+  "vapen_pik": { "name": "Pik", "attribute": "sty"},
+  "vapen_spetum": { "name": "Spetum", "attribute": "sty"},
+  "vapen_tornerlans": { "name": "Tornerlans", "attribute": "sty"},
+  "vapen_treudd": { "name": "Treudd", "attribute": "sty"},
+  "vapen_bondeslaga": { "name": "Bondeslaga", "attribute": "smi"},
+  "vapen_stridsgissel": { "name": "Stridsgissel", "attribute": "smi"},
+  "vapen_stridsslaga": { "name": "Stridsslaga", "attribute": "smi"},
+  "vapen_niosvansad_katt": { "name": "Niosvansad katt", "attribute": "smi"},
+  "vapen_oxpiska": { "name": "Oxpiska", "attribute": "smi"},
+  "vapen_piska": { "name": "Piska", "attribute": "smi"},
+  "vapen_glav": { "name": "Glav", "attribute": "sty"},
+  "vapen_hillebard": { "name": "Hillebard", "attribute": "sty"},
+  "vapen_partisan": { "name": "Partisan", "attribute": "sty"},
+  "vapen_pålyxa": { "name": "Pålyxa", "attribute": "sty"},
+  "vapen_kortbåge": { "name": "Kortbåge", "attribute": "smi"},
+  "vapen_långbåge": { "name": "Långbåge", "attribute": "smi"},
+  "vapen_pilbåge": { "name": "Pilbåge", "attribute": "smi"},
+  "vapen_ryttarbåge": { "name": "Ryttarbåge", "attribute": "smi"},
+  "vapen_sammansatt_båge": { "name": "Sammansatt båge", "attribute": "smi"},
+  "vapen_arbalest": { "name": "Arbalest", "attribute": "smi"},
+  "vapen_automatarmborst": { "name": "Automatarmborst", "attribute": "smi"},
+  "vapen_lätt_armborst": { "name": "Lätt armborst", "attribute": "smi"},
+  "vapen_tungt_armborst": { "name": "Tungt armborst", "attribute": "smi"},
+  "vapen_slunga": { "name": "Slugna", "attribute": "smi"},
+  "vapen_stavslunga": { "name": "Stavslunga", "attribute": "smi"},
+  "vapen_kastkniv": { "name": "Kastkniv", "attribute": "smi"},
+  "vapen_kastspjut": { "name": "Kastspjut", "attribute": "smi"},
+  "vapen_kastyxa": { "name": "Kastyxa", "attribute": "smi"},
+  "vapen_blåsrör": { "name": "Blåsrör", "attribute": "smi"},
+  "sköld_targ": { "name": "Targ", "attribute": "smi"},
+  "sköld_liten_rundsköld": { "name": "Liten rundsköld", "attribute": "smi"},
+  "sköld_stor_rundsköld": { "name": "Stor rundsköld", "attribute": "smi"},
+  "sköld_långsköld": { "name": "Långsköld", "attribute": "smi"},
+  "sköld_vanlig_sköld": { "name": "Vanlig sköld", "attribute": "smi"},
+  "sköld_scutata": { "name": "Scutata", "attribute": "smi"},
+  "sköld_pavise": { "name": "Pavise", "attribute": "smi"},
+  "zoologi": { "name": "Zoologi", "attribute": "int"},
+  "änterhake": { "name": "Änterhake", "attribute": "smi"},
+  "örtkunskap": { "name": "Örtkunskap", "attribute": "int"},
+  "överlevnad": { "name": "Överlevnad", "attribute": "int"}  
+};
+
+var skills = {
+  "bluffa": "kar",
+  "finna_dolda_ting": "int",
+  "första_hjälpen": "int",
+  "gömma_sig": "int",
+  "hoppa": "smi",
+  "klättra": "smi",
+  "köpslå": "kar",
+  "lyssna": "int",
+  "ls_modersmål": "int",
+  "rida": "smi",
+  "sjunga": "kar",
+  "slagsmål": "sty",
+  "smyga": "smi",
+  "spåra": "int",
+  "stjäla_föremål": "smi",
+  "tala_modersmål": "int",
+  "upptäcka_fara": "psy",
+  "värdera": "int",
+  "övertala": "kar",
+  "administration": "int",
+  "akrobatik": "smi",
+  "alkemi": "int",
+  "astrologi": "int",
+  "avväpna": "smi",
+  "buktala": "psy",
+  "bärsärkagång": "psy",
+  "dans": "smi",
+  "djurhelning": "int",
+  "djurträning": "psy",
+  "dolk": "smi",
+  "dra vapen": "smi",
+  "drogkunskap": "int",
+  "förfalskning": "int",
+  "geografi": "int",
+  "geologi": "int",
+  "giftkunskap": "int",
+  "gyckelkonster": "smi",
+  "hantera fällor": "smi",
+  "hantverk": "",
+  "hasardspel": "psy",
+  "heraldik": "int",
+  "historia": "int",
+  "hypnotisera": "psy",
+  "knopar": "smi",
+  "kulturkännedom": "int",
+  "kunskap om demoner": "int",
+  "kunskap om magi": "int",
+  "kunskap om odöda": "int",
+  "känna magi": "psy",
+  "låsdyrkning": "smi",
+  "läkekonst": "int",
+  "läppläsning": "int",
+  "ls_främmande_språk": "int",
+  "magisk_kanalisering": "int",
+  "magiskolor": "int",
+  "massage": "smi",
+  "muta": "kar",
+  "målning": "smi",
+  "navigera": "int",
+  "orientering": "int",
+  "räkning": "int",
+  "schack & brädspel": "int",
+  "simma": "smi",
+  "sjökunnighet": "int",
+  "skådespeleri": "kar",
+  "spela_instrument": "kar",
+  "språkkunskap": "int",
+  "spå väder": "int",
+  "stavhopp": "smi",
+  "stridskonster": "smi",
+  "tala_främmande_språk": "int",
+  "teckenspråk": "int",
+  "trästav": "smi",
+  "två_vapen": "",
+  "under_världen": "int",
+  "vapenfärdigheter": "",
+  "zoologi": "int",
+  "änterhake": "smi",
+  "örtkunskap": "int",
+  "överlevnad": "int"
+};
+
+var social_position = {
+  "egendomslös": {
+    "index": 0,
+    "description": "Egendomslös (träl, slav, straffånge, tiggarmunk, livegen, galärslav)",
+    "ls_modersmål_bc_low_int": 0,
+    "ls_modersmål_bc_high_int": 1
+  },
+  "lägre_underklass": {
+    "index": 1,
+    "description": "Lägre underklass (tiggare, latrintömmare, gravgrävare)",
+    "ls_modersmål_bc_low_int": 0,
+    "ls_modersmål_bc_high_int": 1
+  },
+  "högre_underklass": {
+    "index": 2,
+    "description": "Högre underklass (lärling, gesäll, novis)",
+    "ls_modersmål_bc_low_int": 1,
+    "ls_modersmål_bc_high_int": 5
+  },
+  "lägre_medelklass": {
+    "index": 3,
+    "description": "Lägre medelklass (grovhantverkare, arbetande köpman, stadsvakt)",
+    "ls_modersmål_bc_low_int": 5,
+    "ls_modersmål_bc_high_int": 11    
+  },
+  "högre_medelklass": {
+    "index": 4,
+    "description": "Högre medelklass (finhantverkare, köpman, präst, självägande bonde",
+    "ls_modersmål_bc_low_int": 11,
+    "ls_modersmål_bc_high_int": 16    
+  },
+  "lägre_överklass": {
+    "index": 5,
+    "description": "Lägre överklass (rådsman, hovfolk, hantverksmästare)",
+    "ls_modersmål_bc_low_int": 16,
+    "ls_modersmål_bc_high_int": 20    
+  },
+  "högre_överklass": {
+    "index": 6,
+    "description": "Högre överklass (borgmästare, skråmästare, gillesmästare, riksämbetsman)",
+    "ls_modersmål_bc_low_int": 16,
+    "ls_modersmål_bc_high_int": 20    
+  },
+  "lågadel": {
+    "index": 7,
+    "description": "Lågadel (riddare, friherre, baron, markis, jarl, biskop)",
+    "ls_modersmål_bc_low_int": 16,
+    "ls_modersmål_bc_high_int": 20    
+  },
+  "högadel": {
+    "index": 8,
+    "description": "Högadel (greve, hertig, prins, kardinal, påve, kung, kejsare)",
+    "ls_modersmål_bc_low_int": 16,
+    "ls_modersmål_bc_high_int": 20    
+  }
+};
+
+var spells = {
+  "antimagi" : {
+    "namn": "antimagi",
+    "skola": "allmänn",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "S/4 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 13
+    }
+  },
+  "skingra" : {
+    "namn": "skingra",
+    "skola": "allmänn",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "Omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 13
+    }
+  },
+  "varseblivning" : {
+    "namn": "varseblivning",
+    "skola": "allmänn",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 13
+    }
+  },
+  "beskyddare" : {
+    "namn": "beskyddare",
+    "skola": "allmänn",
+    "skolvärde": 9,
+    "räckvidd": "beröring",
+    "varaktighet": "permanent",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 14
+    }
+  },
+  "föryngra" : {
+    "namn": "föryngra",
+    "skola": "allmänn",
+    "skolvärde": 14,
+    "räckvidd": "beröring",
+    "varaktighet": "S/4 veckor",
+    "f": 0,
+    "r": 1,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 14
+    }
+  },
+  "laddning" : {
+    "namn": "laddning",
+    "skola": "allmänn",
+    "skolvärde": 14,
+    "räckvidd": "beröring",
+    "varaktighet": "permanent",
+    "f": 0,
+    "r": 1,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 14
+    }
+  },
+  "finna_vatten" : {
+    "namn": "finna vatten",
+    "skola": "animism",
+    "skolvärde": 1,
+    "räckvidd": "S/4 rutor",
+    "varaktighet": "omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 14
+    }
+  },
+  "träeld" : {
+    "namn": "träeld",
+    "skola": "animism",
+    "skolvärde": 2,
+    "räckvidd": "beröring",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 14
+    }
+  },
+  "spårlös" : {
+    "namn": "spårlös",
+    "skola": "animism",
+    "skolvärde": 4,
+    "räckvidd": "beröring",
+    "varaktighet": "S/4 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 15
+    }
+  },
+  "växtkunskap" : {
+    "namn": "växtkunskap",
+    "skola": "animism",
+    "skolvärde": 5,
+    "räckvidd": "beröring",
+    "varaktighet": "omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 15
+    }
+  },
+  "minska" : {
+    "namn": "minska", 
+    "skola": "animism",
+    "skolvärde": 6,
+    "räckvidd": "beröring",
+    "varaktighet": "S/4 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 15
+    }
+  },
+  "nedkalla_åskvigg" : {
+    "namn": "nedkalla åskvigg",
+    "skola": "animism",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 15
+    }
+  },
+  "vindpil" : {
+    "namn": "vindpil", 
+    "skola": "animism",
+    "skolvärde": 6,
+    "räckvidd": "Sx2 rutor",
+    "varaktighet": "Sx1 SR",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 15
+    }
+  },
+  "öka" : {
+    "namn": "öka", 
+    "skola": "animism",
+    "skolvärde": 6,
+    "räckvidd": "beröring",
+    "varaktighet": "S/4 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 15
+    }
+  },
+  "örtrankor" : {
+    "namn": "örtrankor", 
+    "skola": "animism",
+    "skolvärde": 6,
+    "räckvidd": "särskild",
+    "varaktighet": "Sx1 SR",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 15
+    }
+  },
+  "kamouflage" : {
+    "namn": "kamouflage", 
+    "skola": "animism",
+    "skolvärde": 7,
+    "räckvidd": "personlig",
+    "varaktighet": "S/4 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 16
+    }
+  },
+  "vindkontroll" : {
+    "namn": "vindkontroll", 
+    "skola": "animism",
+    "skolvärde": 11,
+    "räckvidd": "Sx1 kilometer",
+    "varaktighet": "Sx1 timmar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 16
+    }
+  },
+  "förändra" : {
+    "namn": "förändra", 
+    "skola": "animism",
+    "skolvärde": 12,
+    "räckvidd": "Sx2 rutor",
+    "varaktighet": "Sx1 min",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 16
+    }
+  },
+  "hela" : {
+    "namn": "hela", 
+    "skola": "animism",
+    "skolvärde": 12,
+    "räckvidd": "beröring",
+    "varaktighet": "omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 16
+    }
+  },
+  "känna_fiendeskap" : {
+    "namn": "känna fiendeskap", 
+    "skola": "animism",
+    "skolvärde": 12,
+    "räckvidd": "Sx2 rutor",
+    "varaktighet": "omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 16
+    }
+  },
+  "regnkontroll" : {
+    "namn": "regnkontroll", 
+    "skola": "animism",
+    "skolvärde": 13,
+    "räckvidd": "S/4 km",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 17
+    }
+  },
+  "dimma" : {
+    "namn": "dimma", 
+    "skola": "animism",
+    "skolvärde": 15,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "S/4 timmar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 17
+    }
+  },
+  "neutralisera_gift" : {
+    "namn": "neutralisera gift", 
+    "skola": "animism",
+    "skolvärde": 15,
+    "räckvidd": "beröring",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 17
+    }
+  },
+  "tillkalla_varelse" : {
+    "namn": "tillkalla varelse", 
+    "skola": "animism",
+    "skolvärde": 2,
+    "räckvidd": "Sx4 km",
+    "varaktighet": "omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 17
+    }
+  },
+  "tala_med_varelse" : {
+    "namn": "tala med varelse", 
+    "skola": "animism",
+    "skolvärde": 5,
+    "räckvidd": "personlig",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 17
+    }
+  },
+  "kontrollera_varelse" : {
+    "namn": "kontrollera varelse",
+    "skola": "animism",
+    "skolvärde": 10,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "Sx1 SR",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 18
+    }
+  },
+  "ljus" : {
+    "namn": "ljus", 
+    "skola": "elementarmagi",
+    "skolvärde": 2,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "Sx4 minuter",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 18
+    }
+  },
+  "låga" : {
+    "namn": "låga", 
+    "skola": "elementarmagi",
+    "skolvärde": 2,
+    "räckvidd": "personlig",
+    "varaktighet": "1T3 SR",
+    "f": 1,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 18
+    }
+  },
+  "försegla" : {
+    "namn": "försegla", 
+    "skola": "elementarmagi",
+    "skolvärde": 3,
+    "räckvidd": "beröring",
+    "varaktighet": "Sx1 minuter",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 18
+    }
+  },
+  "mörker" : {
+    "namn": "mörker", 
+    "skola": "elementarmagi",
+    "skolvärde": 3,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "S/4 minuter",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 18
+    }
+  },
+  "sköld" : {
+    "namn": "sköld", 
+    "skola": "elementarmagi",
+    "skolvärde": 3,
+    "räckvidd": "personlig",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 19
+    }
+  },
+  "flammande_hand" : {
+    "namn": "flammande hand", 
+    "skola": "elementarmagi",
+    "skolvärde": 4,
+    "räckvidd": "beröring",
+    "varaktighet": "1T3 minuter",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 19
+    }
+  },
+  "kalla_handen" : {
+    "namn": "kalla handen", 
+    "skola": "elementarmagi",
+    "skolvärde": 4,
+    "räckvidd": "S/2 rutor",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 19
+    }
+  },
+  "blixt" : {
+    "namn": "blixt", 
+    "skola": "elementarmagi",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 19
+    }
+  },
+  "eld" : {
+    "namn": "eld", 
+    "skola": "elementarmagi",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 19
+    }
+  },
+  "energistråle" : {
+    "namn": "energistråle", 
+    "skola": "elementarmagi",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 19
+    }
+  },
+  "frost" : {
+    "namn": "frost", 
+    "skola": "elementarmagi",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 20
+    }
+  },
+  "förbanna_vapen" : {
+    "namn": "förbanna vapen", 
+    "skola": "elementarmagi",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 20
+    }
+  },
+  "förtrolla_vapen" : {
+    "namn": "förtrolla vapen", 
+    "skola": "elementarmagi",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 20
+    }
+  },
+  "knäcka" : {
+    "namn": "knäcka", 
+    "skola": "elementarmagi",
+    "skolvärde": 6,
+    "räckvidd": "Sx2 rutor",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 20
+    }
+  },
+  "öppna" : {
+    "namn": "öppna", 
+    "skola": "elementarmagi",
+    "skolvärde": 6,
+    "räckvidd": "beröring",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 20
+    }
+  },
+  "viggfångare" : {
+    "namn": "viggfångare", 
+    "skola": "elementarmagi",
+    "skolvärde": 7,
+    "räckvidd": "personlig",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 20
+    }
+  },
+  "virvelsköld" : {
+    "namn": "virvelsköld",
+    "skola": "elementarmagi",
+    "skolvärde": 8,
+    "räckvidd": "personlig",
+    "varaktighet": "Sx1 SR",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 20
+    }
+  },
+  "fs_elementar" : {
+    "namn": "frammana/skicka bort elementar",
+    "skola": "elementarmagi",
+    "skolvärde": 9,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "Sx1 SR",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 21
+    }
+  },
+  "astralvapen" : {
+    "namn": "astralvapen", 
+    "skola": "elementarmagi",
+    "skolvärde": 10,
+    "räckvidd": "S/2 rutor",
+    "varaktighet": "Sx1 SR",
+    "f": 1,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 28
+    }
+  },
+  "explosion" : {
+    "namn": "explosion", 
+    "skola": "elementarmagi",
+    "skolvärde": 11,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 28
+    }
+  },
+  "språng" : {
+    "namn": "språng", 
+    "skola": "mentalism",
+    "skolvärde": 1,
+    "räckvidd": "beröring",
+    "varaktighet": "S/4 SR",
+    "f": 0,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 28
+    }
+  },
+  "motståndskraft" : {
+    "namn": "motståndskraft", 
+    "skola": "mentalism",
+    "skolvärde": 3,
+    "räckvidd": "beröring",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 28
+    }
+  },
+  "levitation" : {
+    "namn": "levitation",
+    "skola": "mentalism",
+    "skolvärde": 4,
+    "räckvidd": "personlig",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 28
+    }
+  },
+  "känsloläsning" : {
+    "namn": "känsloläsning",
+    "skola": "mentalism",
+    "skolvärde": 5,
+    "räckvidd": "Sx2 rutor",
+    "varaktighet": "S/4 SR",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 29
+    }
+  },
+  "lyft" : {
+    "namn": "lyft", 
+    "skola": "mentalism",
+    "skolvärde": 6,
+    "räckvidd": "Sx4 rutor",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 29
+    }
+  },
+  "skydd" : {
+    "namn": "skydd", 
+    "skola": "mentalism",
+    "skolvärde": 6,
+    "räckvidd": "Sx2 rutor",
+    "varaktighet": "S/4 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 29
+    }
+  },
+  "tankeöverföring" : {
+    "namn": "tankeöverföring", 
+    "skola": "mentalism",
+    "skolvärde": 6,
+    "räckvidd": "Sx10 rutor",
+    "varaktighet": "Sx1 SR",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 29
+    }
+  },
+  "vattenandning" : {
+    "namn": "vattenanding", 
+    "skola": "mentalism",
+    "skolvärde": 7,
+    "räckvidd": "beröring",
+    "varaktighet": "Sx1 timmar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 29
+    }
+  },
+  "flyga" : {
+    "namn": "flyga", 
+    "skola": "mentalism",
+    "skolvärde": 8,
+    "räckvidd": "beröring",
+    "varaktighet": "S/4 timmar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 30
+    }
+  },
+  "läderhud" : {
+    "namn": "läderhud", 
+    "skola": "mentalism",
+    "skolvärde": 8,
+    "räckvidd": "personlig",
+    "varaktighet": "Sx1 timmar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 30
+    }
+  },
+  "mörkersyn" : {
+    "namn": "mörkersyn", 
+    "skola": "mentalism",
+    "skolvärde": 8,
+    "räckvidd": "beröring",
+    "varaktighet": "Sx1 timmar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 30
+    }
+  },
+  "osynlighet" : {
+    "namn": "osynlighet", 
+    "skola": "mentalism",
+    "skolvärde": 9,
+    "räckvidd": "beröring",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 30
+    }
+  },
+  "syn" : {
+    "namn": "syn", 
+    "skola": "mentalism",
+    "skolvärde": 9,
+    "räckvidd": "personlig",
+    "varaktighet": "Sx1 SR",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 30
+    }
+  },
+  "elchock" : {
+    "namn": "elchock", 
+    "skola": "mentalism",
+    "skolvärde": 10,
+    "räckvidd": "beröring",
+    "varaktighet": "omedelbar",
+    "f": 1,
+    "r": 0,
+    "k": 1,
+    "source": {
+      "book": "spelarboken",
+      "page": 30
+    }
+  },
+  "tankeläsning" : {
+    "namn": "tankeläsning", 
+    "skola": "mentalism",
+    "skolvärde": 11,
+    "räckvidd": "Sx2 rutor",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 31
+    }
+  },
+  "kontrollera_person" : {
+    "namn": "kontrollera person", 
+    "skola": "mentalism",
+    "skolvärde": 12,
+    "räckvidd": "Sx4 rutor",
+    "varaktighet": "Sx1 SR",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 31
+    }
+  },
+  "telepati" : {
+    "namn": "telepati", 
+    "skola": "mentalism",
+    "skolvärde": 12,
+    "räckvidd": "special",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 31
+    }
+  },
+  "teleportera" : {
+    "namn": "teleportera", 
+    "skola": "mentalism",
+    "skolvärde": 12,
+    "räckvidd": "beröring",
+    "varaktighet": "omedelbar",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 31
+    }
+  },
+  "magisk_syn" : {
+    "namn": "magisk syn", 
+    "skola": "mentalism",
+    "skolvärde": 13,
+    "räckvidd": "beröring",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 31
+    }
+  },
+  "orädd" : {
+    "namn": "orädd", 
+    "skola": "mentalism",
+    "skolvärde": 14,
+    "räckvidd": "beröring",
+    "varaktighet": "Sx1 minuter",
+    "f": 0,
+    "r": 0,
+    "k": 0,
+    "source": {
+      "book": "spelarboken",
+      "page": 31
+    }
+  }
+};
+
+var equipment = {
+  "blåsbälg" : { "name": "Blåsbälg", "weight": 2, "cost": 90},
+  "bärbar_smedja": { "name": "Bärbar smedja", "weight": 26, "cost": 625},
+  "bärbart_städ": { "name": "Bärbart städ", "weight": 5, "cost": 190},
+  "flacktång": { "name": "Flacktång", "weight": 0.5, "cost": 50},
+  "grov_spik": { "name": "Grov spik (10 st)", "weight": 0, "cost": 50},
+  "hacka": { "name": "Hacka", "weight": 5, "cost": 125},
+  "handyxa": { "name": "Handyxa", "weight": 3, "cost": 60},
+  "järnborrar": { "name": "Järnborrar (5 st)", "weight": 0, "cost": 50},
+  "järnkilar": { "name": "Järnkilar (3 st)", "weight": 0, "cost": 15},
+  "kniv": { "name": "Kniv", "weight": 0.5, "cost": 50},
+  "kofot": { "name": "Kofot", "weigth": 2, "cost": 25},
+  "normalt_städ": { "name": "Normalt städ", "weight": 35, "cost": 625},
+  "skogsyxa": { "name": "Skogsyxa", "weight": 5, "cost": 125},
+  "skära": { "name": "Skära", "weight": 1, "cost": 40},
+  "slägga": { "name": "Slägga", "weight": 8, "cost": 40},
+  "småspik": { "name": "Småspik (100 st)", "weight": 1, "cost": 70},
+  "snickarhammare": { "name": "Snickarhammare", "weight": 1, "cost": 18},
+  "spade": { "name": "Spade", "weight": 2, "cost": 75},
+  "trähammare": { "name": "Trähammare", "weight": 1, "cost": 2},
+  "träsåg": { "name": "Träsåg", "weight": 1, "cost": 60},
+  "glasflaska": { "name": "Glasflaska (10 doser)", "weight": 0.5, "cost": 160},
+  "glasplunta": { "name": "Glasplunta (1 dos)", "weight": 0, "cost": 60},
+  "koger": { "name": "Koger (20 pilar)", "weight": 0.5, "cost": 40},
+  "lerkruka": { "name": "Lerkruka (4 liter)", "weight": 1, "cost": 12},
+  "penningpung": { "name": "Penningpung (50 mynt)", "weight": 0, "cost": 5},
+  "myntbälte": { "name": "Myntbälte (100 mynt)", "weight": 0, "cost": 40},
+  "ryggsäck": { "name": "Ryggsäck (20 liter)", "weight": 1, "cost": 20},
+  "träskrin": { "name": "Träskrin", "weight": 1, "cost": 15},
+  "metallskrin": { "name": "Metallskrin", "weight": 2, "cost": 140},
+  "lås_skrin": { "name": "Lås till skrin", "weight": 0, "cost": 200},
+  "stor_säck": { "name": "Stor säck (100 liter)", "weight": 1, "cost": 4},
+  "träkagge": { "name": "Träkagge (25 liter)", "weight": 4, "cost": 20},
+  "trätunna": { "name": "Trätunna (100 liter)", "weight": 14, "cost": 50},
+  "skinnlägel": { "name": "Skinnlägel (2 liter)", "weight": 0.5, "cost": 10},
+  "vattenskinn": { "name": "Vattenskinn (20 liter)", "weight": 2, "cost": 25},
+  "byxor": { "name": "Byxor", "weight": 0.5, "cost": 25},
+  "bälte": { "name": "Bälte", "weight": 0, "cost": 20},
+  "handskar": { "name": "Handskar", "weight": 0, "cost": 40},
+  "hatt": { "name": "Hatt", "weight": 0, "cost": 30},
+  "hosor": { "name": "Hosor", "weight": 0.5, "cost": 25},
+  "jacka": { "name": "Jacka", "weight": 0.5, "cost": 30},
+  "kortbyxor": { "name": "Kortbyxor", "weight": 0, "cost": 10},
+  "kåpa": { "name": "Kåpa (magiker-, präst-)", "weight": 2, "cost": 130},
+  "kängor": { "name": "Kängor", "weight": 1, "cost": 75},
+  "läderskor": { "name": "Läderskor", "weight": 0.5, "cost": 50},
+  "läderstövlar": { "name": "Läderstövlar, höga", "weight": 1, "cost": 200},
+  "mantel": { "name": "Mantel", "weight": 2, "cost": 100},
+  "sandaler": { "name": "Sandaler", "weight": 0, "cost": 10},
+  "skjorta": { "name": "Skjorta", "weight": 0, "cost": 10},
+  "tunika": { "name": "Tunika", "weight": 0.5, "cost": 20},
+  "arbalestlod": { "name": "Arbalestlod (10 st)", "weight": 1, "cost": 60},
+  "armborstlod": { "name": "Armborstlod (10 st)", "weight": 0.5, "cost": 50},
+  "pilar": { "name": "Pilar (10 st)", "weight": 0.5, "cost": 20},
+  "slungkulor": { "name": "Slungkulor (+2CL, 10 st)", "weight": 0.5, "cost": 5},
+  "bågsträng": { "name": "Bågsträng", "weight": 0, "cost": 3},
+  "flinta_stål": { "name": "Flinta & stål", "weight": 0, "cost": 15},
+  "vaxljus": { "name": "Vaxljus (1 timme)", "weight": 0.5, "cost": 15},
+  "fackla": { "name": "Fackla (1 timme)", "weight": 1, "cost": 5},
+  "oljelampa": { "name": "Oljelampa (1 timme)", "weight": 0.5, "cost": 7},
+  "oljelykta": { "name": "Oljelykta (6 timmar)", "weight": 1, "cost": 40},
+  "lampolja": { "name": "Lampolja (1 timme)", "weight": 0.5, "cost": 3},
+  "halmmadass": { "name": "Halmmadrass", "weight": 2, "cost": 60},
+  "järngryta": { "name": "Järngryta (2 liter)", "weight": 3, "cost": 35},
+  "fiskenät": { "name": "Fiskenät (5x5m)", "weight": 2, "cost": 30},
+  "sovfäll": { "name": "Sovfäll", "weight": 4, "cost": 310},
+  "tält": { "name": "Tält (2 man)", "weight": 5, "cost": 190},
+  "dyrkar_små": { "name": "Dyrkar (för små lås, 10 st)", "weight": 0.5, "cost": 225},
+  "dyrkar_stora": { "name": "Dyrkar (för stora lås, 10 st)", "weight": 1, "cost": 320},
+  "nyckelämnen": { "name": "Nyckelämnen (10 st)", "weight": 0.5, "cost": 140},
+  "nyckelfilar": { "name": "Nyckelfilar (6 st)", "weight": 0, "cost": 100},
+  "vaxklump": { "name": "Vaxklump", "weight": 0, "cost": 10},
+  "handborr": { "name": "Handborr", "weight": 0.5, "cost": 85},
+  "glasskärare": { "name": "Glasskärare", "weight": 0, "cost": 350},
+  "spik_ögla": { "name": "Spik med ögla (1 st)", "weight": 0, "cost": 20},
+  "änterhake": { "name": "Änterhake", "weight": 0.5, "cost": 40},
+  "låsregelsavhakare": { "name": "Låsregelsavhakare", "weight": 0, "cost": 10},
+  "gångjärnsknäckare": { "name": "Gångjärnsknäckare", "weight": 0.5, "cost": 15},
+  "metallsåg": { "name": "Metallsåg", "weight": 0, "cost": 250},
+  "smörjolja": { "name": "Smörjolja (25 ml)", "weight": 0, "cost": 8},
+  "rep_1": { "name": "1-tums rep (10 m, tål 400 kg)", "weight": 12, "cost": 80},
+  "rep_05": { "name": "½-tums rep (10 m, tål 100 kg)", "weight": 3, "cost": 40},
+  "hänglås_nyckel": { "name": "Hänglås+nyckel", "weight": 0.5, "cost": 180},
+  "hästskor": { "name": "Hästskor (4 st)", "weight": 1, "cost": 35},
+  "kedja": { "name": "Kedja (1m, tål 100 kg)", "weight": 5, "cost": 200},
+  "kraftig_kedja": { "name": "Kraftig kedja (1m, tål 1.000kg)", "weight": 25, "cost": 400},
+  "penna_bläck_pergament": { "name": "Penna, bläck & pergament", "weight": 0, "cost": 10},
+  "repstege": { "name": "Repstege (3m)", "weight": 1, "cost": 5},
+  "solur": { "name": "Solur (+-30 minuter)", "weight": 1, "cost": 600},
+  "spegel": { "name": "Spegel", "weight": 0.5, "cost": 550},
+  "synål": { "name": "Synål", "weight": 0, "cost": 1},
+  "sytråd": { "name": "Sytråd (10 m)", "weight": 0, "cost": 2},
+  "lädernål": { "name": "Lädernål", "weight": 0, "cost": 3},
+  "sytråd_läder": { "name": "Sytråd för läderarbete (10m)", "weight": 0, "cost": 4},
+  "timglas": { "name": "Timglas", "weight": 1, "cost": 875},
+  "trästege": { "name": "Trästege (2m)", "weight": 4, "cost": 9},
+  "visselpipa": { "name": "Visselpipa", "weight": 0, "cost": 25},
+  "signalhorn": { "name": "Signalhorn", "weight": 0.5, "cost": 30},
+  "flöjt": { "name": "Flöjt", "weight": 0, "cost": 90},
+  "harpa": { "name": "Harpa", "weight": 5, "cost": 600},
+  "luta": { "name": "Luta", "weight": 1, "cost": 400},
+  "lyra": { "name": "Lyra", "weight": 1.5, "cost": 375},
+  "trumma": { "name": "Trumma", "weight": 3, "cost": 190},
+  "vagn_två_hjul": { "name": "Tvåhjulig vagn (1 häst)", "weight": 0, "cost": 1000},
+  "vagn_fyra_hjul": { "name": "Fyrhjulig vagn (4 hästar el. 2 oxar)", "weight": 0, "cost": 3000},
+  "stridsvagn": { "name": "Stridsvagn (2 hästar)", "weight": 0, "cost": 8000},
+  "eka": { "name": "Rodd/segeleka (4m)", "weight": 0, "cost": 3000},
+  "hundsläde": { "name": "Hundsläde", "weight": 0, "cost": 650},
+  "kustskepp": { "name": "Kustskepp (10m)", "weight": 0, "cost": 10000},
+  "åsna": { "name": "Åsna", "weight": 0, "cost": 1900},
+  "mula": { "name": "Mula", "weight": 0, "cost": 3750},
+  "ponny": { "name": "Ponny", "weight": 0, "cost": 2500},
+  "ridhäst": { "name": "Ridhäst", "weight": 0, "cost": 3000},
+  "arbetshäst": {"name": "Arbetshäst", "weight": 0, "cost": 5000},
+  "stridshäst": {"name": "Stridshäst", "weight": 0, "cost": 7000},
+  "oxe": { "name": "Oxe", "weight": 0, "cost": 3500},
+  "vakthund_tränad": { "name": "Vakthund (tränad)", "weight": 0, "cost": 600},
+  "stridsdogg": { "name": "Stridsdogg (tränad)", "weight": 0, "cost": 2000},
+  "slädhund": { "name": "Slädhund (tränad)", "weight": 0, "cost": 500},
+  "sadel": { "name": "Sadel", "weight": 0, "cost": 40},
+  "sadelväskor": { "name": "Sadelväskor", "weight": 0, "cost": 30},
+  "seldon_betsel": { "name": "Seldon & betsel", "weight": 0, "cost": 20},
+  "hästrustning_läder": { "name": "Hästrustning (läder)", "weight": 0, "cost": 300},
+  "hästrustning_ring": { "name": "Hästrustning (ringbrynja)", "weight": 0, "cost": 1000},
+  "hästrustning_metall": { "name": "Hästrustning (metall)", "weight": 0, "cost": 2000},
+  "schabrak": { "name": "Schabrak", "weight": 0, "cost": 100}
+};
+
+var weapons = {
+  "dolk": { "name":"Dolk", "type":"dolk", "kp": "1T4+1", "sty": 1, "length": 0, "weight": 0.5, "bv": 9, "cost": 70},
+  "testikeldolk": { "name":"Testikeldolk", "type":"dolk", "kp": "1T6", "sty": 1, "length": 0, "weight": 0.5, "bv": 15, "cost": 75},
+  "parerdolk": { "name":"Parerdolk", "type":"dolk", "kp": "1T4+1", "sty": 1, "length": 0, "weight": 0.5, "bv": 15, "cost": 80},
+  "stilett": { "name":"Stilett", "type":"dolk", "kp": "1T3", "sty": 1, "length": 0, "weight": 0.25, "bv": 5, "cost": 50},
+  "bastardsvärd": { "name":"Bastardsvärd", "type":"enhandssvärd", "kp": "1T10+1", "sty": 17, "length": 0, "weight": 5.5, "bv": 15, "cost": 2500},
+  "bredsvärd": { "name":"Bredsvärd", "type":"enhandssvärd", "kp": "1T8+1", "sty": 13, "length": 0, "weight": 4.5, "bv": 15, "cost": 1000},
+  "falchion": { "name":"Falchion", "type":"enhandssvärd", "kp": "1T8", "sty": 11, "length": 0, "weight": 4, "bv": 15, "cost": 500},
+  "kortsvärd": { "name":"Kortsvärd", "type":"enhandssvärd", "kp": "1T6+1", "sty": 7, "length": 0, "weight": 2, "bv": 15, "cost": 400},
+  "kroksabel": { "name":"Kroksabel", "type":"enhandssvärd", "kp": "1T8+1", "sty": 9, "length": 0, "weight": 3, "bv": 15, "cost": 650},
+  "långsvärd": { "name":"Långsvärd", "type":"enhandssvärd", "kp": "1T10", "sty": 11, "length": 0, "weight": 4, "bv": 15, "cost": 1250},
+  "sabel": { "name":"Sabel", "type":"enhandssvärd", "kp": "1T8", "sty": 9, "length": 0, "weight": 3, "bv": 15, "cost": 600},
+  "stickvärja": { "name":"Stickvärja", "type":"enhandssvärd", "kp": "1T6+1", "sty": 7, "length": 0, "weight": 2, "bv": 8, "cost": 900},
+  "träningssvärd": { "name":"Träningssvärd", "type":"enhandssvärd", "kp": "1T6", "sty": 7, "length": 0, "weight": 2, "bv": 7, "cost": 50},
+  "värja": { "name":"Värja", "type":"enhandssvärd", "kp": "1T8+1", "sty": 9, "length": 0, "weight": 3, "bv": 12, "cost": 700},
+  "hjälmkrossare": { "name":"Hjälmkrossare", "type":"enhands krossvapen", "kp": "1T8+1", "sty": 11, "length": 0, "weight": 4, "bv": 15, "cost": 700},
+  "klubba": { "name":"Klubba", "type":"enhands krossvapen", "kp": "1T6", "sty": 5, "length": 0, "weight": 1, "bv": 7, "cost": 20},
+  "knogjärn": { "name":"Knogjärn", "type":"enhands krossvapen", "kp": "+1", "sty": 1, "length": 0, "weight": 0.5, "bv": 0, "cost": 20},
+  "morgonstjärna": { "name":"Morgonstjärna", "type":"enhands krossvapen", "kp": "1T8+2", "sty": 13, "length": 0, "weight": 4.5, "bv": 11, "cost": 1500},
+  "spikklubba": { "name":"Spikklubba", "type":"enhands krossvapen", "kp": "1T6+1", "sty": 5, "length": 0, "weight": 1, "bv": 7, "cost": 30},
+  "stridshammare": { "name":"Stridshammare", "type":"enhands krossvapen", "kp": "1T6+2", "sty": 11, "length": 0, "weight": 4, "bv": 15, "cost": 850},
+  "stridsklubba": { "name":"Stridsklubba", "type":"enhands krossvapen", "kp": "1T8", "sty": 9, "length": 0, "weight": 3, "bv": 11, "cost": 300},
+  "tung_spikklubba": { "name":"Tung spikklubba", "type":"enhands krossvapen", "kp": "2T4+1", "sty": 21, "length": 0, "weight": 6, "bv": 11, "cost": 70},
+  "tung_träklubba": { "name":"Tung träklubba", "type":"enhands krossvapen", "kp": "2T4", "sty": 21, "length": 0, "weight": 6, "bv": 11, "cost": 50},
+  "bredyxa": { "name":"Bredyxa", "type":"enhandsyxor", "kp": "1T8+1", "sty": 9, "length": 0, "weight": 3, "bv": 11, "cost": 350},
+  "handyxa": { "name":"Handyxa", "type":"enhandsyxor", "kp": "1T6+1", "sty": 9, "length": 0, "weight": 3, "bv": 11, "cost": 60},
+  "korpnäbb": { "name":"Korpnäbb", "type":"enhandsyxor", "kp": "1T8", "sty": 7, "length": 0, "weight": 2, "bv": 15, "cost": 600},
+  "stridsyxa": { "name":"Stridsyxa", "type":"enhandsyxor", "kp": "1T8+2", "sty": 11, "length": 0, "weight": 4, "bv": 11, "cost": 450},
+  "flamberge": { "name":"Flamberge", "type":"tvåhandsvapen", "kp": "2T10+1", "sty": 31, "length": 1, "weight": 8, "bv": 15, "cost": 4000},
+  "skäggyxa": { "name":"Skäggyxa", "type":"tvåhandsvapen", "kp": "2T8+1", "sty": 25, "length": 0, "weight": 6.5, "bv": 11, "cost": 1100},
+  "tvåhandsgissel": { "name":"Tvåhandsgissel", "type":"tvåhandsvapen", "kp": "2T8+2", "sty": 31, "length": 1, "weight": 8, "bv": 15, "cost": 2500},
+  "tvåhandshammare": { "name":"Tvåhandshammare", "type":"tvåhandsvapen", "kp": "2T8", "sty": 31, "length": 1, "weight": 8, "bv": 15, "cost": 1750},
+  "tvåhandssvärd": { "name":"Tvåhandssvärd", "type":"tvåhandsvapen", "kp": "2T10+2", "sty": 31, "length": 1, "weight": 8, "bv": 15, "cost": 3500},
+  "tvåhandsyxa": { "name":"Tvåhandsyxa", "type":"tvåhandsvapen", "kp": "2T10+1", "sty": 31, "length": 1, "weight": 8, "bv": 11, "cost": 1900}
+};
+
+var character = {
+  "sty": 0,
+  "fys": 0,
+  "smi": 0,
+  "int": 0,
+  "psy": 0,
+  "kar": 0,    
+  "sto": 0,
+  "race": "människa",
+  "occupation": "bard",
+  "age": "mogen",
+  "social_position": "egendomslös",
+  "abilities": [],
+  "occupational_skills": [],
+  "spells": [],
+  "items": []
+};
+
+function calculate() {
+  var bp = 125;
+  character["race"] = get_race();
+  character["age"] = get_age();
+  var ep = ages[character["age"]]["ep"];
+  
+  bp -= get_race_cost(character["race"]);
+  bp -= get_display_attr_cost("sty");
+  bp -= get_display_attr_cost("fys");
+  bp -= get_display_attr_cost("smi");
+  bp -= get_display_attr_cost("int");
+  bp -= get_display_attr_cost("psy");
+  bp -= get_display_attr_cost("kar");
+  bp -= get_display_attr_cost("sto");
+  var abilities_cost = get_abilities_cost();
+  var hand_cost = get_hand_cost();
+  var social_cost = get_social_cost();
+  var money_cost = get_money_cost();
+  bp -= abilities_cost;
+  bp -= hand_cost;
+  bp -= social_cost;
+  bp -= money_cost;
+  set_bp(bp);
+  set_attr_res(character["race"], character["age"]);
+  set_kp();
+  set_sb();
+  set_ff(character["race"]);
+  set_special_ability(abilities_cost);
+  set_sword_hand(hand_cost);
+  set_social(social_cost);
+  set_money(money_cost, social_cost, character["age"]);
+  set_primary_base_chances(character["race"], character["age"]);
+  set_available_skills();
+  ep -= set_primary_skills();
+  ep -= set_secondary_skills();
+  set_available_spells();
+  ep -= set_spells();
+  set_ep(ep);
+}      
+
+function get_race() {
+  var race_element = document.getElementById("select_race");
+  return race_element.options[race_element.selectedIndex].value;
+}
+
+function get_age() {
+  var age_element = document.getElementById("select_age");
+  return age_element.options[age_element.selectedIndex].value;
+}
+
+function get_race_cost(race) {
+  return races[race]["bp"];
+}
+
+function get_display_attr_cost(attr) {
+  cost = get_attr_cost(attr);
+  document.getElementById(attr+"_bp").innerHTML = cost;
+  return cost;
+}
+
+function get_attr_cost(attr) {
+  if(attr == "sto") {
+    return get_size_cost();
+  }
+  var attr_val = document.getElementById(attr+"_val").valueAsNumber;
+  switch(attr_val) {
+    case 3: return 0;
+    case 4: return 1;
+    case 5: return 2;
+    case 6: return 3;
+    case 7: return 5;
+    case 8: return 7;
+    case 9: return 9;
+    case 10: return 10;
+    case 11: return 11;
+    case 12: return 12;
+    case 13: return 14;
+    case 14: return 17;
+    case 15: return 20;
+    case 16: return 25;
+    case 17: return 30;
+    case 18: return 40;
+  }
+}
+
+function get_size_cost() {
+  var size_val = document.getElementById("sto_val").valueAsNumber;
+  switch(size_val) {
+    case -5: return -7;
+    case -4: return -5;
+    case -3: return -3;
+    case -2: return -2;
+    case -1: return -1;
+    case 0: return 0;
+    case 1: return 2;
+    case 2: return 4;
+    case 3: return 6;
+    case 4: return 8;
+    case 5: return 10;
+  }
+}
+
+function get_abilities_cost() {
+  return document.getElementById("särskilda_förmågor_val").valueAsNumber;
+}
+
+function get_hand_cost() {
+  return document.getElementById("svärdshand_val").valueAsNumber;  
+}
+
+function get_social_cost() {
+  return document.getElementById("socialt_stånd_val").valueAsNumber;  
+}
+
+function get_money_cost() {
+  return document.getElementById("startkapital_val").valueAsNumber;  
+}
+
+function get_base_chance(skill, attr, race, age) {
+  var social = character["social_position"];
+  if (skill == "ls_modersmål") {
+    if(character["int"] > 14) {
+      return social_position[social]["ls_modersmål_bc_high_int"];
+    } else {
+      return social_position[social]["ls_modersmål_bc_low_int"];
+    }
+  } else if (skill == "tala_modersmål") {
+    if (social_position[social]["index"] >= 5) {
+      return 20;
+    } else {
+      return 16;
+    }
+  } else {
+    var attr_val = get_attr_res(attr, race, age);
+    return get_bc(attr_val);
+  }
+}
+
+function get_bc(attr_val) {
+    if(attr_val <= 3) {
+      return 0;
+    } else if(attr_val <= 8) {
+      return 1;
+    } else if(attr_val <= 12) {
+      return 2;
+    } else if(attr_val <= 16) {
+      return 3;
+    } else if(attr_val <= 20) {
+      return 4;
+    } else {
+      return 5;
+    }
+}
+
+function set_attr_cost(attr, cost) {
+  document.getElementById(attr+"_bp").innerHTML = cost;  
+}
+
+function get_attr_res(attr, race, age) {
+  return document.getElementById(attr+"_val").valueAsNumber + races[race][attr] + ages[age][attr];
+}
+
+function set_attr_res(race, age) {
+  character["sty"] = get_attr_res("sty", race, age);
+  character["fys"] = get_attr_res("fys", race, age);
+  character["smi"] = get_attr_res("smi", race, age);
+  character["int"] = get_attr_res("int", race, age);
+  character["psy"] = get_attr_res("psy", race, age);
+  character["kar"] = get_attr_res("kar", race, age);
+  character["sto"] = document.getElementById("sto_val").valueAsNumber + races[race]["sto"];
+  
+  document.getElementById("sty").innerHTML = character["sty"];
+  document.getElementById("fys").innerHTML = character["fys"];
+  document.getElementById("smi").innerHTML = character["smi"];
+  document.getElementById("int").innerHTML = character["int"];
+  document.getElementById("psy").innerHTML = character["psy"];
+  document.getElementById("kar").innerHTML = character["kar"];
+  document.getElementById("sto").innerHTML = character["sto"];
+}    
+
+function set_profession_attribute_requirements() {
+  var professionSelectEl = document.getElementById("profession");
+  var profession = professionSelectEl.options[professionSelectEl.selectedIndex].value;
+  var occupation = occupations[profession];
+  
+  document.getElementById("sty_yrke").innerHTML = occupation["sty"];
+  document.getElementById("fys_yrke").innerHTML = occupation["fys"];
+  document.getElementById("smi_yrke").innerHTML = occupation["smi"];
+  document.getElementById("int_yrke").innerHTML = occupation["int"];
+  document.getElementById("psy_yrke").innerHTML = occupation["psy"];
+  document.getElementById("kar_yrke").innerHTML = occupation["kar"];
+  document.getElementById("sto_yrke").innerHTML = occupation["sto"];
+  
+}
+
+function set_bp(bp) {
+  bp_val = document.getElementById("bp_value");
+  bp_val.innerHTML = bp;
+}
+
+function set_ep(ep) {
+  ep_val = document.getElementById("ep_val");
+  ep_val.innerHTML = ep;
+}
+
+function set_kp() {
+  document.getElementById("kp_val").innerHTML = Math.ceil((get_attr("sto") + get_attr("fys"))/2.0);
+}
+
+function set_sb() {
+  var sb = 0;
+  var stysto = get_attr("sty")+get_attr("sto");
+  if (stysto <= 26) {
+    sb = "0";
+  } else if (stysto <= 29) {
+    sb = "1";
+  } else if (stysto <= 32) {
+    sb = "1T2";
+  } else if (stysto <= 40) {
+    sb = "1T4";
+  } else if (stysto <= 50) {
+    sb = "1T6";
+  } else if (stysto <= 60) {
+    sb = "1T10";
+  } else if (stysto <= 80) {
+    sb = "2T6";
+  } else if (stysto <= 100) {
+    sb = "3T6";
+  } else if (stysto <= 140) {
+    sb = "4T6";
+  } else if (stysto <= 180) {
+    sb = "5T6";
+  } 
+  document.getElementById("sb_val").innerHTML = sb;
+}
+
+function set_ff(race) {
+  var ff = 0;
+  var stofyssmi = get_attr("sto")+get_attr("fys")+get_attr("smi");
+  if (stofyssmi <= 11) {
+    ff = 7;
+  } else if (stofyssmi <= 20) {
+    ff = 8;
+  } else if (stofyssmi <= 29) {
+    ff = 9;
+  } else if (stofyssmi <= 38) {
+    ff = 10;
+  } else if (stofyssmi <= 47) {
+    ff = 11;
+  } else if (stofyssmi <= 56) {
+    ff = 12;
+  } else if (stofyssmi <= 65) {
+    ff = 13;
+  } else if (stofyssmi <= 74) {
+    ff = 14;
+  } else if (stofyssmi <= 83) {
+    ff = 15;
+  } else if (stofyssmi <= 92) {
+    ff = 16;
+  }
+  ff += races[race]["ff"];
+  document.getElementById("förflyttning_val").innerHTML = ff;
+}
+
+function set_special_ability(ability_cost) {
+  var roll = document.getElementById("särskilda_förmågor_slag").valueAsNumber;
+  var result = ability_cost + roll;
+  document.getElementById("särskilda_förmågor_res").innerHTML = result;
+  document.getElementById("särskilda_förmågor_text").innerHTML = get_special_ability(result);
+}
+
+function get_special_ability(value) {
+  if(value <= 4) {
+    return "+1 på FV på valfri sekundär färdighet";
+  } else if(value <= 6) {
+    return "Sjöfararbakgrund. Du får +2 på FV i Sjökunnighet och Navigera";
+  } else if(value <= 8) {
+    return "Starka vrister. Du har +3 FV på Hoppa";
+  } else if(value <= 10) {
+    return "Bråkig uppväxt. Du får +3 FV i Slagsmål";
+  } else if(value <= 12) {
+    return "Hantverkarbakgrund. Du får +3 FV i valfri hantverksfärdighet."
+  } else if(value <= 14) {
+    return "Smidig kropp. Du får +3 FV i Akrobatik";
+  } else if(value <= 16) {
+    return "Köpmannabakgrund. Du får +3 FV i Värdera";
+  } else if(value <= 18) {
+    return "God koordinationsförmåga. Du får +3 på FV i Två vapen";
+  } else if(value <= 20) {
+    return "Hobbyist. Du får FV 3 i en valfri sekundär färdighet som du i så fall kan lära dig från början.";
+  } else if(value <= 22) {
+    return "Starka nypor. Du har alltid +3 på CL i Klättra.";
+  } else if(value <= 24) {
+    return "Mottagligt medium. Du har alltid +5 på CL i Magisk kanalisering då du är den passiva parten.";
+  } else if(value <= 26) {
+    return "Hängiven student. Du får +2 på valfritt FV.";
+  } else if(value <= 28) {
+    return "Övertygande tonfall. Du har alltid +3 CL i Övertala och Muta";
+  } else if(value <= 30) {
+    return "Sjätte sinne. Du får +1 på din FV i Upptäcka fara och Finna dolda ting.";
+  } else if(value <= 32) {
+    return "Stirrande blick. Du har alltid +5 på CL i Hypnotisera.";
+  } else if(value <= 34) {
+    return "Magikänsla. Du har alltid +5 på CL i Känna magi.";
+  } else if(value <= 36) {
+    return "Gott språksinne. Du får automatiskt FV 20 i att Tala och Läsa/Skriva ett valfritt språk";
+  } else if(value <= 38) {
+    return "Stork kunskapsområde. Du får välja ytterligare två valfria sekundära färdigheter till yrkesfärdigheter";
+  } else if(value <= 40) {
+    return "God bågskytt. Alla räckvidder för alla projektilvapen ökas med 25%";
+  } else if(value <= 42) {
+    return "Absolut gehör. Grundkostnaden för att lära sig Spela instrument och Sjunga är alltid 1";    
+  } else if(value <= 44) {
+    return "Precisionssinne. Du har CL +1 på alla vapenfärdigheter";
+  } else if(value <= 46) {
+    return "Dubbelhänt. Se rubriken 'Svärdshand'";    
+  } else if(value <= 48) {
+    return "God tidskänsla.";
+  } else if(value <= 51) {
+    return "Absolut ögonmått";
+  } else if(value <= 54) {
+    return "Mycket uppmärksam. Du har alltid +2 på din CL i Finna dolda ting och Upptäcka fara";
+  } else if(value <= 55) {
+    return "Blixtrande reflexer. Du har +3 på alla initiativ slag";
+  } else if(value <= 56) {
+    return "Bärsärk. Du får +5 på ditt FV i Bärsärkargång";
+  } else if(value <= 57) {
+    return "Gott balanssinne. Du har +5 på SMI vid alla balansakter och när du försöker landa på fötterna efter fall";
+  } else if(value <= 58) {
+    return "Hästarnas herre. Du får +10 på ditt FV i Rida och du kan aldrig bli avkastad från en hästrygg";
+  } else if(value <= 59) {
+    return "Ambidextriös";
+  } else if(value <= 60) {
+    return "Djurvän. Du blir aldrig anfallen av vanliga djur, vare sig vilda eller tama";
+  } else if(value <= 61) {
+    return "Turgubbe";
+  } else if(value <= 62) {
+    return "Magisk empati";
+  } else if(value <= 63) {
+    return "Gudarnas gunstling";
+  } else if(value <= 64) {
+    return "Lättlärd. Grundkostnaden för sekundära färdigheter minskas till 4 poäng";
+  } else if(value <= 65) {
+    return "Extremt smärttålig. Dina totala KP multipliceras med 1,5";
+  } else if(value <= 66) {
+    return "Snabbslående. Du slår alltid först i varje SR";
+  } else if(value <= 67) {
+    return "Baneman";
+  } else if(value <= 68) {
+    return "God kroppskontroll";
+  } else if(value <= 69) {
+    return "Järnnäve. Du gör alltid maximal skada i obeväpnad strid";
+  } else if(value <= 70) {
+    return "Extremt orädd. -5 på alla slag på Skräcktabellen";
+  } else if(value <= 71) {
+    return "Orubblig vilja. Du har +5 på PSY på alla slag på PSY mot PSY på Motståndstabellen";
+  } else if(value <= 72) {
+    return "Härdig mot element";
+  } else if(value <= 73) {
+    return "Gott läkekött";
+  } else if(value <= 74) {
+    return "God mental kontroll";
+  } else if(value <= 75) {
+    return "Naturlig färdighet med vapen. Du får FV +5 på en valfri vapenfärdighet";
+  } else if(value <= 76) {
+    return "Kluven personlighet";
+  } else if(value <= 77) {
+    return "God känsla för yrket";
+  } else if(value <= 78) {
+    return "Hamnbytare";
+  } else if(value <= 79) {
+    return "Snabb uppfattningsförmåga";
+  } else if(value <= 80) {
+    return "God PSY-potential";
+  } else {
+    return "Höjd grundegenskap";
+  }
+}
+
+function set_sword_hand(hand_cost) {
+  var roll = document.getElementById("svärdshand_slag").valueAsNumber;
+  var result = hand_cost + roll;
+  document.getElementById("svärdshand_res").innerHTML = result;  
+  document.getElementById("svärdshand_text").innerHTML = get_sword_hand(result);
+}
+
+function get_sword_hand(value) {
+  if(value <= 11) {
+    return "höger";
+  } else if(value <= 14) {
+    return "vänster";
+  } else if(value <= 18) {
+    return "dubbelhänt";
+  } else {
+    return "ambidextriös";
+  }
+}
+
+function set_social(social_cost) {
+  var roll = document.getElementById("socialt_stånd_slag").valueAsNumber;
+  var result = social_cost + roll;
+  document.getElementById("socialt_stånd_res").innerHTML = result;
+  character["social_position"] = get_social(result);
+  document.getElementById("socialt_stånd_text").innerHTML = social_position[character["social_position"]]["description"];
+}
+  
+function get_social(value) {
+  if (value <= 2) {
+    return "egendomslös";
+  } else if(value <= 4) {
+    return "lägre_underklass";
+  } else if(value <= 7) {
+    return "högre_underklass";
+  } else if(value <= 11) {
+    return "lägre_medelklass";
+  } else if(value <= 16) {
+    return "högre_medelklass";
+  } else if(value <= 22) {
+    return "lägre_överklass";
+  } else if(value <= 29) {
+    return "högre_överklass";
+  } else if(value <= 37) {
+    return "lågadel";
+  } else {
+    return "högadel";
+  }
+}
+
+function set_money(money_cost, social_cost, age) {
+  var roll = document.getElementById("startkapital_slag").valueAsNumber;
+  var half_social = Math.ceil(social_cost/2.0);
+  var result = money_cost + half_social + roll;
+  document.getElementById("halva_socialt_stånd_val").innerHTML = half_social;
+  document.getElementById("startkapital_res").innerHTML = result;
+  var money = get_money(result) * ages[age]["startkapital"]
+  document.getElementById("startkapital_sm").innerHTML = money+"sm";
+}
+
+function get_money(value) {
+  if (value <= 2) {
+    return 200;
+  } else if(value <= 4) {
+    return 400;
+  } else if(value <= 7) {
+    return 600;
+  } else if(value <= 11) {
+    return 1000;
+  } else if(value <= 16) {
+    return 2000;
+  } else if(value <= 22) {
+    return 3000;
+  } else if(value <= 29) {
+    return 5000;     
+  } else if(value <= 37) {
+    return 10000;
+  } else if(value <= 46) {
+    return 20000;
+  } else if(value <= 56) {
+    return 30000;
+  } else {
+    return 50000;
+  }
+}
+
+function set_primary_base_chances(race, age) {
+  set_base_chance("bluffa", race, age);
+  set_base_chance("finna_dolda_ting", race, age);
+  set_base_chance("första_hjälpen", race, age);
+  set_base_chance("gömma_sig", race, age);
+  set_base_chance("hoppa", race, age);
+  set_base_chance("klättra", race, age);
+  set_base_chance("köpslå", race, age);
+  set_base_chance("lyssna", race, age);
+  set_base_chance("ls_modersmål", race, age);
+  set_base_chance("rida", race, age);
+  set_base_chance("sjunga", race, age);
+  set_base_chance("slagsmål", race, age);
+  set_base_chance("smyga", race, age);
+  set_base_chance("spåra", race, age);
+  set_base_chance("stjäla_föremål", race, age);
+  set_base_chance("tala_modersmål", race, age);
+  set_base_chance("upptäcka_fara", race, age);
+  set_base_chance("värdera", race, age);
+  set_base_chance("övertala", race, age);
+}
+
+function set_base_chance(skill, race, age) {
+  var bc = get_base_chance(skill, skills[skill], race, age);
+  document.getElementById(skill+"_bc").innerHTML = bc;
+}
+
+function set_primary_skills() {
+  var total_cost = 0;
+  for( var key in primary_skills ) {
+    var base = get_base_chance(key, primary_skills[key], character["race"], character["age"]);
+    var raised = document.getElementById(key+"_k").valueAsNumber;
+    var cost = get_skill_cost(base, raised) * 2;
+    total_cost += cost;
+    document.getElementById(key+"_cost").innerHTML = cost;
+    document.getElementById(key+"_fv").innerHTML = base + raised;
+  }
+  return total_cost;
+}
+
+function set_secondary_skills() {
+  //console.log("set_secondary_skills");
+  var total_cost = 0;
+  
+  var occupational_skills = character["occupational_skills"];
+  for(var si = 0; si < occupational_skills.length; si++) {
+    var skill_id = occupational_skills[si];
+    var skill = secondary_skills[skill_id];
+    var bc = get_bc(character[skill["attribute"]]);
+    var raised = document.getElementById(skill_id+"_k").valueAsNumber;
+    var cost = get_skill_cost(bc, raised) * 3;
+    document.getElementById(skill_id+"_bc").innerHTML = bc;
+    document.getElementById(skill_id+"_cost").innerHTML = cost;
+    document.getElementById(skill_id+"_fv").innerHTML = bc + raised;
+    total_cost += cost;
+    //console.log("skill_id = "+skill_id);
+    //console.log("secondary_skills[skill_id] = "+JSON.stringify(secondary_skills[skill_id]));
+    //console.log("character[skill[attribute]] = " + character[skill["attribute"]]);
+    //console.log("get_bc(character[skill[attribute]]) = " + get_bc(skill["attribute"]));
+  }
+  /*
+  for(var i=1; i<13; i++) {
+    var attrEl = document.getElementById("secondary_skill_attr_"+i);
+    var bcEl = document.getElementById("secondary_skill_bc_"+i);
+    var attr = attrEl.options[attrEl.selectedIndex].value;
+    var bc = get_bc(character[attr]);
+    bcEl.innerHTML = bc;
+    var raised = document.getElementById("secondary_skill_k_"+i).valueAsNumber;
+    var cost = get_skill_cost(bc, raised) * 3;
+    total_cost += cost;
+    document.getElementById("secondary_skill_cost_"+i).innerHTML = cost;
+    document.getElementById("secondary_skill_fv_"+i).innerHTML = bc + raised;
+  }
+  */
+  //console.log("===========");
+  return total_cost;
+}
+
+function set_available_skills() {
+  var skillSelect = document.getElementById("add_skill_select");
+  var i = 0;
+  for(var key in secondary_skills) {
+    var skill = secondary_skills[key];
+    skillSelect[i] = new Option(skill["name"], key);
+    i++;
+  }
+}
+
+function set_available_spells() {
+  var spellSelect = document.getElementById("add_spell_select");
+  var i = 0;
+  for(var key in spells) {
+    spellSelect[i] = new Option(spells[key]["namn"], key);
+    i++;
+  }
+    
+}
+
+function set_spells() {
+  var total_cost = 0;
+  var spellTableBodyEl = document.getElementById("spell_table_body");
+  //console.log("spellTableBodyEl: "+spellTableBodyEl);
+  //console.log("spellTableBodyEl.getElementsByTagName('tr'): "+spellTableBodyEl.getElementsByTagName("tr"));
+  //console.log("spellTableBodyEl.getElementsByTagName('tr').length: "+spellTableBodyEl.getElementsByTagName("tr").length);
+  var rows = spellTableBodyEl.getElementsByTagName("tr");
+  for (var i=0; i<rows.length; i++) {
+    var row = rows[i];
+    //console.log("row: "+row);
+    var cells = row.getElementsByTagName("td");
+    var kInputEl = cells[2].children[0];
+    //console.log("kInputEl: "+kInputEl);
+    var spell = kInputEl.spell;
+    //console.log("spell: "+spell);
+    var k = kInputEl.valueAsNumber;
+    //console.log("k: "+k);
+    cells[4].innerHTML = k;
+    var schoolValue = spells[spell]["skolvärde"];
+    //console.log("spells['"+spell+"']: "+spells[spell]);
+    //console.log("schoolValue: "+schoolValue);
+    //console.log("get_skill_cost(0, "+k+"): "+get_skill_cost(0,k));
+    //console.log("spell_cost("+schoolValue+"): "+spell_cost(schoolValue));
+    var cost = get_skill_cost(0, k) * spell_cost(schoolValue);
+    total_cost += cost;
+    cells[3].innerHTML = cost;
+    cells[4].innerHTML = k;
+  }
+  return total_cost;
+}
+
+function spell_cost(schoolValue) {
+  return Math.ceil(schoolValue / 3.0) * 2;
+}
+
+var skill_cost = {
+  0: { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, 11: 12, 12: 14, 13: 16, 14: 18, 15:21, 16:24, 17:27, 18:31, 19:35, 20:39, 21:44 },
+  1: { 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 7, 9: 8, 10: 9, 11: 11, 12: 13, 13: 15, 14: 17, 15:20, 16:23, 17:26, 18:30, 19:34, 20:38, 21:43 },
+  2: { 3: 1, 4: 2, 5: 3, 6: 4, 7: 5, 8: 6, 9: 7, 10: 8, 11: 10, 12: 12, 13: 14, 14: 16, 15:19, 16:22, 17:25, 18:29, 19:33, 20:37, 21:42 },
+  3: { 4: 1, 5: 2, 6: 3, 7: 4, 8: 5, 9: 6, 10: 7, 11: 9, 12: 11, 13: 13, 14: 15, 15:18, 16:21, 17:24, 18:28, 19:32, 20:36, 21:41 },
+  4: { 5: 1, 6: 2, 7: 3, 8: 4, 9: 5, 10: 6, 11: 8, 12: 10, 13: 12, 14: 14, 15:17, 16:20, 17:23, 18:27, 19:31, 20:35, 21:40 },
+  5: { 6: 1, 7: 2, 8: 3, 9: 4, 10: 5, 11: 7, 12: 9, 13: 11, 14: 13, 15:16, 16:19, 17:22, 18:26, 19:30, 20:34, 21:39 },
+  6: { 7: 1, 8: 2, 9: 3, 10: 4, 11: 6, 12: 8, 13: 10, 14: 12, 15:15, 16:18, 17:21, 18:25, 19:29, 20:33, 21:38 },
+  7: { 8: 1, 9: 2, 10: 3, 11: 5, 12: 7, 13: 9, 14: 11, 15:14, 16:17, 17:20, 18:24, 19:28, 20:32, 21:37 },
+  8: { 9: 1, 10: 2, 11: 4, 12: 6, 13: 8, 14: 10, 15:13, 16:16, 17:19, 18:23, 19:27, 20:31, 21:36 },
+  9: { 10: 1, 11: 3, 12: 5, 13: 7, 14: 9, 15:12, 16:15, 17:18, 18:22, 19:26, 20:30, 21:35 },
+  10: { 11: 2, 12: 4, 13: 6, 14: 8, 15:11, 16:14, 17:17, 18:21, 19:25, 20:29, 21:34 },
+  11: { 12: 2, 13: 4, 14: 6, 15: 9, 16:12, 17:15, 18:19, 19:23, 20:27, 21:32 },
+  12: { 13: 2, 14: 4, 15: 7, 16:10, 17:13, 18:17, 19:21, 20:25, 21:30 },
+  13: { 14: 2, 15: 5, 16: 8, 17:11, 18:15, 19:19, 20:23, 21:28 },
+  14: { 15: 3, 16: 6, 17: 9, 18:13, 19:17, 20:21, 21:26 },
+  15: { 16: 3, 17: 6, 18:10, 19:14, 20:18, 21:23 },
+  16: { 17: 3, 18: 7, 19:11, 20:15, 21:20 },
+  17: { 18: 4, 19: 8, 20:12, 21:17 },
+  18: { 19: 4, 20: 8, 21:13 },
+  19: { 20: 4, 21: 9 },
+  20: { 21: 5 }  
+};
+
+function get_skill_cost(start, delta) {
+  if(delta == 0) {
+    return 0;
+  }
+  //console.log(start);
+  //console.log(delta);
+  //console.log(skill_cost[start][start+delta]);
+  return skill_cost[start][start+delta];
+}
+
+function get_attr(attr) {
+  return parseInt(document.getElementById(attr).innerHTML);
+}
+
+function add_skill() {
+  var addSkillElement = document.getElementById("add_skill_select");
+  var skill_id = addSkillElement.options[addSkillElement.selectedIndex].value;
+  var skill = secondary_skills[skill_id];
+  character["occupational_skills"].push(skill_id);
+  var bodyElement = document.getElementById("occupational_skill_table_body");
+  var row = bodyElement.insertRow(0);
+  row.id=skill_id+"_row";
+  var number = document.createTextNode(bodyElement.rows.length);
+  row.insertCell(0).appendChild(number);
+  var name = document.createTextNode(skill["name"]);
+  row.insertCell(1).appendChild(name);
+  var attribute = document.createTextNode(attributes[skill["attribute"]]);
+  row.insertCell(2).appendChild(attribute);
+  var bcSpan = document.createElement("span");
+  bcSpan.id = skill_id+"_bc";
+  bcSpan.innerHTML = get_bc(character[skill["attribute"]]);
+  row.insertCell(3).appendChild(bcSpan);
+  var k = document.createElement("input");
+  k.skill = skill_id;
+  k.type = "number";
+  k.value = 0;
+  k.min = 0;
+  k.id = skill_id+"_k";
+  k.addEventListener("click", calculate);
+  row.insertCell(4).appendChild(k);
+  var costSpan = document.createElement("span");
+  costSpan.id = skill_id+"_cost";
+  costSpan.innerHTML = "0";
+  row.insertCell(5).appendChild(costSpan);
+  var fvSpan = document.createElement("spane");
+  fvSpan.id = skill_id+"_fv";
+  fvSpan.innerHTML = "0";
+  row.insertCell(6).appendChild(fvSpan);
+  var removeButton = document.createElement("button");
+  removeButton.addEventListener("click", function() {
+    remove_skill(skill_id);
+  });
+  removeButton.appendChild(document.createTextNode("Ta bort"));
+  row.insertCell(7).appendChild(removeButton);
+}
+
+function remove_skill(skill) {
+  var skills = character["occupational_skills"];
+  var index = skills.indexOf(skill);
+  if(index > -1) {
+    skills.splice(index, 1);
+  }
+  var rowElement = document.getElementById(skill+"_row");
+  rowElement.parentNode.removeChild(rowElement);
+  var bodyElement = document.getElementById("occupational_skill_table_body");
+  for(var i=0; i<bodyElement.rows.length; i++) {
+    bodyElement.rows[i].children[0].innerHTML = bodyElement.rows.length - i;
+  }
+  calculate();
+}
+
+function add_spell() {
+  var addSpellElement = document.getElementById("add_spell_select");
+  var spell =  addSpellElement.options[addSpellElement.selectedIndex].value;
+  var bodyElement = document.getElementById("spell_table_body");
+  var row = bodyElement.insertRow(bodyElement.rows.length);
+  row.id = spell+"_row";
+  var number = document.createTextNode(bodyElement.rows.length);
+  row.insertCell(0).appendChild(number);
+  var namn = document.createTextNode(spells[spell]["namn"]);
+  row.insertCell(1).appendChild(namn);
+  row.insertCell(2).appendChild(document.createTextNode(spells[spell]["skolvärde"]));
+  var k = document.createElement("input");
+  k.spell = spell;
+  k.type = "number";
+  k.value = 0;
+  k.min = 0;
+  k.addEventListener("click", calculate);
+  row.insertCell(3).appendChild(k);
+  row.insertCell(4).appendChild(document.createTextNode("0"));
+  row.insertCell(5).appendChild(document.createTextNode("0"));
+  var removeButton = document.createElement("button");
+  removeButton.addEventListener("click", function() {
+    remove_spell(spell);
+  });
+  removeButton.appendChild(document.createTextNode("Ta bort"));
+  row.insertCell(6).appendChild(removeButton);
+}
+
+function remove_spell(spell) {
+  //var skills = character["occupational_skills"];
+  //var index = skills.indexOf(skill);
+  //if(index > -1) {
+  //  skills.splice(index, 1);
+  //}
+  var rowElement = document.getElementById(spell+"_row");
+  rowElement.parentNode.removeChild(rowElement);
+  var bodyElement = document.getElementById("occupational_skill_table_body");
+  for(var i=0; i<bodyElement.rows.length; i++) {
+    bodyElement.rows[i].children[0].innerHTML = bodyElement.rows.length - i;
+  }
+  calculate();
+}
+
+    </script>
+  </head>
+  <body onload="calculate(); set_profession_attribute_requirements();">
+    <div>Bakgrundspoäng <span id="bp_value"></span></div>
+    <div>Ras: <select id="select_race" onclick="calculate();">
+        <option value='anka'>Anka</option>
+        <option value='dvärg'>Dvärg</option>
+        <option value='halvalv'>Halvalv</option>
+        <option value='halvlängdsman'>Halvlängdsman</option>
+        <option value='halvorch'>Halvorch</option>
+        <option value='människa'>Människa</option>
+      </select></div>
+    <div>
+      <table>
+        <caption>Grundegenskaper</caption>
+        <thead></thead>
+          <tr>
+            <th>Namn</th>
+            <th>Köpvärde</th>
+            <th>Kostnad</th>
+            <th>Slutvärde</th>
+            <th>Yrkeskrav</th>
+          </tr>
+        <tbody>
+          <tr>
+            <td>STY</td>
+            <td><input id="sty_val" type="number" value="3" min="3" max="18" onclick="calculate();" /></td>
+            <td><span id="sty_bp"></span></td>
+            <td><span id="sty"></span></td>
+            <td><span id="sty_yrke"></span></td>
+          </tr>
+          <tr>
+            <td>FYS</td>
+            <td><input id="fys_val" type="number" value="3" min="3" max="18" onclick="calculate();" /></td>
+            <td><span id="fys_bp"></span></td>
+            <td><span id="fys"></span></td>
+            <td><span id="fys_yrke"></span></td>
+          </tr>
+          <tr>
+            <td>SMI</td>
+            <td><input id="smi_val" type="number" value="3" min="3" max="18" onclick="calculate();" /></td>
+            <td><span id="smi_bp"></span></td>
+            <td><span id="smi"></span></td>
+            <td><span id="smi_yrke"></span></td>
+          </tr>
+          <tr>
+            <td>INT</td>
+            <td><input id="int_val" type="number" value="3" min="3" max="18" onclick="calculate();" /></td>
+            <td><span id="int_bp"></span></td>
+            <td><span id="int"></span></td>
+            <td><span id="int_yrke"></span></td>
+          </tr>
+          <tr>
+            <td>PSY</td>
+            <td><input id="psy_val" type="number" value="3" min="3" max="18" onclick="calculate();" /></td>
+            <td><span id="psy_bp"></span></td>
+            <td><span id="psy"></span></td>
+            <td><span id="psy_yrke"></span></td>
+          </tr>
+          <tr>
+            <td>KAR</td>
+            <td><input id="kar_val" type="number" value="3" min="3" max="18" onclick="calculate();" /></td>
+            <td><span id="kar_bp"></span></td>
+            <td><span id="kar"></span></td>
+            <td><span id="kar_yrke"></span></td>
+          </tr>
+          <tr>
+            <td>STO</td>
+            <td><input id="sto_val" type="number" value="0" min="-5" max="5" onclick="calculate();" /></td>
+            <td><span id="sto_bp"></span></td>
+            <td><span id="sto"></span></td>
+            <td><span id="sto_yrke"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+        <div>Yrke 
+          <select id="profession" onchange="set_profession_attribute_requirements();">
+            <option value="bard">Bard</option>
+            <option value="helare">Helare</option>
+            <option value="krigare">Krigare</option>
+            <option value="lärd_man">Lärd man</option>
+            <option value="lönnmördare">Lönnmördare</option>
+            <option value="magiker">Magiker</option>
+            <option value="munk">Munk</option>
+            <option value="sjöfarare">Sjöfarare</option>
+            <option value="riddare">Riddare</option>
+            <option value="tjuv">Tjuv</option>
+            <option value="utbygdsjägare">Utbygdsjägare</option>
+          </select></div>
+    <div>KP <span id="kp_val"></span></div>
+    <div>Skadebonus <span id="sb_val"></span></div>
+    <div>Förflyttning <span id="förflyttning_val"></span></div>
+    <div>Särskilda förmågor <input id="särskilda_förmågor_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T20: <input id="särskilda_förmågor_slag" type="number" value="21" min="2" max="40" onclick="calculate();" /> = <span id="särskilda_förmågor_res"></span>: <span id="särskilda_förmågor_text"></span></div>
+    <div>Svärdshand <input id="svärdshand_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="svärdshand_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="svärdshand_res"> </span>: <span id="svärdshand_text"></span></div>
+    <div>Socialt stånd <input id="socialt_stånd_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="socialt_stånd_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="socialt_stånd_res"></span>: <span id="socialt_stånd_text"></span></div>
+    <div>Startkapital <input id="startkapital_val" type="number" value="0" min="0" onclick="calculate();" /> + <span id="halva_socialt_stånd_val"></span> + 2T6: <input id="startkapital_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="startkapital_res"></span>: <span id="startkapital_sm"></span></div>
+    <div>Ålder
+      <select id="select_age" onclick="calculate();">
+        <option value="ung">Ung</option>
+        <option value="mogen">Mogen</option>
+        <option value="medelålders">Medelålders</option>
+        <option value="gammal">Gammal</option>
+      </select>
+    </div>
+    <div>Erfarenhetspoäng <span id="ep_val"></span></div>
+    <div>
+      <table>
+        <caption>Primära färdigheter</caption>
+        <thead>
+          <tr>
+            <th>Namn</th>
+            <th>Grundegenskap</th>
+            <th>Baschans</th>
+            <th>Köpt</th>
+            <th>Kostnad</th>
+            <th>FV</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Bluffa</td>          <td>KAR</td>  <td><span id="bluffa_bc"></span></td>          <td><input id="bluffa_k" type="number" value="0" min="0" onclick="calculate()" /></td>           <td><span id="bluffa_cost"></span></td> <td><span id="bluffa_fv"></span></td></tr>
+          <tr><td>Finna dolda ting</td><td>INT</td>  <td><span id="finna_dolda_ting_bc"></span></td><td><input id="finna_dolda_ting_k" type="number" value="0" min="0" onclick="calculate()" /></td> <td><span id="finna_dolda_ting_cost"></span></td> <td><span id="finna_dolda_ting_fv"></span></td></tr>
+          <tr><td>Första hjälpen</td>  <td>INT</td>  <td><span id="första_hjälpen_bc"></span></td>  <td><input id="första_hjälpen_k" type="number" value="0" min="0" onclick="calculate()" /></td>   <td><span id="första_hjälpen_cost"></span></td> <td><span id="första_hjälpen_fv"></span></td></tr>
+          <tr><td>Gömma sig</td>       <td>INT</td>  <td><span id="gömma_sig_bc"></span></td>       <td><input id="gömma_sig_k" type="number" value="0" min="0" onclick="calculate()" /></td>        <td><span id="gömma_sig_cost"></span></td> <td><span id="gömma_sig_fv"></span></td></tr>
+          <tr><td>Hoppa</td>           <td>SMI</td>  <td><span id="hoppa_bc"></span></td>           <td><input id="hoppa_k" type="number" value="0" min="0" onclick="calculate()" /></td>            <td><span id="hoppa_cost"></span></td> <td><span id="hoppa_fv"></span></td></tr>
+          <tr><td>Klättra</td>         <td>SMI</td>  <td><span id="klättra_bc"></span></td>         <td><input id="klättra_k" type="number" value="0" min="0" onclick="calculate()" /></td>          <td><span id="klättra_cost"></span></td> <td><span id="klättra_fv"></span></td></tr>
+          <tr><td>Köpslå</td>          <td>KAR</td>  <td><span id="köpslå_bc"></span></td>          <td><input id="köpslå_k" type="number" value="0" min="0" onclick="calculate()" /></td>           <td><span id="köpslå_cost"></span></td> <td><span id="köpslå_fv"></span></td></tr>
+          <tr><td>Lyssna</td>          <td>INT</td>  <td><span id="lyssna_bc"></span></td>          <td><input id="lyssna_k" type="number" value="0" min="0" onclick="calculate()" /></td>           <td><span id="lyssna_cost"></span></td> <td><span id="lyssna_fv"></span></td></tr>
+          <tr><td>L/S modersmål</td>   <td>spec.</td><td><span id="ls_modersmål_bc"></span></td>    <td><input id="ls_modersmål_k" type="number" value="0" min="0" onclick="calculate()" /></td>     <td><span id="ls_modersmål_cost"></span></td> <td><span id="ls_modersmål_fv"></span></td></tr>
+          <tr><td>Rida</td>            <td>SMI</td>  <td><span id="rida_bc"></span></td>            <td><input id="rida_k" type="number" value="0" min="0" onclick="calculate()" /></td>             <td><span id="rida_cost"></span></td> <td><span id="rida_fv"></span></td></tr>
+          <tr><td>Sjunga</td>          <td>KAR</td>  <td><span id="sjunga_bc"></span></td>          <td><input id="sjunga_k" type="number" value="0" min="0" onclick="calculate()" /></td>           <td><span id="sjunga_cost"></span></td> <td><span id="sjunga_fv"></span></td></tr>
+          <tr><td>Slagsmål</td>        <td>STY</td>  <td><span id="slagsmål_bc"></span></td>        <td><input id="slagsmål_k" type="number" value="0" min="0" onclick="calculate()" /></td>         <td><span id="slagsmål_cost"></span></td> <td><span id="slagsmål_fv"></span></td></tr>
+          <tr><td>Smyga</td>           <td>SMI</td>  <td><span id="smyga_bc"></span></td>           <td><input id="smyga_k" type="number" value="0" min="0" onclick="calculate()" /></td>            <td><span id="smyga_cost"></span></td> <td><span id="smyga_fv"></span></td></tr>
+          <tr><td>Spåra</td>           <td>INT</td>  <td><span id="spåra_bc"></span></td>           <td><input id="spåra_k" type="number" value="0" min="0" onclick="calculate()" /></td>            <td><span id="spåra_cost"></span></td> <td><span id="spåra_fv"></span></td></tr>
+          <tr><td>Stjäla föremål</td>  <td>SMI</td>  <td><span id="stjäla_föremål_bc"></span></td>  <td><input id="stjäla_föremål_k" type="number" value="0" min="0" onclick="calculate()" /></td>   <td><span id="stjäla_föremål_cost"></span></td> <td><span id="stjäla_föremål_fv"></span></td></tr>
+          <tr><td>Tala modersmål</td>  <td>spec.</td><td><span id="tala_modersmål_bc"></span></td>  <td><input id="tala_modersmål_k" type="number" value="0" min="0" onclick="calculate()" /></td>   <td><span id="tala_modersmål_cost"></span></td> <td><span id="tala_modersmål_fv"></span></td></tr>
+          <tr><td>Upptäcka fara</td>   <td>PSY</td>  <td><span id="upptäcka_fara_bc"></span></td>   <td><input id="upptäcka_fara_k" type="number" value="0" min="0" onclick="calculate()" /></td>    <td><span id="upptäcka_fara_cost"></span></td> <td><span id="upptäcka_fara_fv"></span></td></tr>
+          <tr><td>Värdera</td>         <td>INT</td>  <td><span id="värdera_bc"></span></td>         <td><input id="värdera_k" type="number" value="0" min="0" onclick="calculate()" /></td>          <td><span id="värdera_cost"></span></td> <td><span id="värdera_fv"></span></td></tr>
+          <tr><td>Övertala</td>        <td>KAR</td>  <td><span id="övertala_bc"></span></td>        <td><input id="övertala_k" type="number" value="0" min="0" onclick="calculate()" /></td>         <td><span id="övertala_cost"></span></td> <td><span id="övertala_fv"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <select id="add_skill_select" ></select> <button onclick="add_skill();">Lägg till</button>
+      <table>
+        <caption>Yrkesfärdigheter</caption>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Namn</th>
+            <th>Grundegenskap</th>
+            <th>Baschans</th>
+            <th>Köpt</th>
+            <th>Kostnad</th>
+            <th>FV</th>
+          </tr>
+        </thead>
+        <tbody id="occupational_skill_table_body">
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <select id="add_spell_select" ></select> <button onclick="add_spell();">Lägg till</button>
+      <table>
+        <caption>Besvärjelser</caption>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Namn</th>
+            <th>Skolvärde</th>
+            <th>Köpt</th>
+            <th>Kostnad</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody id="spell_table_body">
+          
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
