@@ -2440,7 +2440,7 @@ var skill_cost = {
 };
 
 function get_skill_cost(start, delta) {
-  if(delta == 0) {
+  if(delta === 0) {
     return 0;
   }
   //console.log(start);
@@ -2462,9 +2462,20 @@ function add_skill() {
   var row = bodyElement.insertRow(0);
   row.id=skill_id+"_row";
   var number = document.createTextNode(bodyElement.rows.length);
-  row.insertCell(0).appendChild(number);
-  var name = document.createTextNode(skill["name"]);
-  row.insertCell(1).appendChild(name);
+  row.insertCell(0).appendChild(number); 
+  
+  var name = document.createTextNode(skill["name"]+" ");
+  //add source link
+  var refLink = document.createElement("a");
+  var linkText = document.createTextNode("?");
+  refLink.appendChild(linkText);
+  refLink.href = skill["url"];
+  refLink.target = "reference";
+  
+  var nameCell = row.insertCell(1);
+  nameCell.appendChild(name);
+  nameCell.appendChild(refLink);
+  
   var attribute = document.createTextNode(attributes[skill["attribute"]]);
   row.insertCell(2).appendChild(attribute);
   var bcSpan = document.createElement("span");
@@ -2518,8 +2529,19 @@ function add_spell() {
   row.id = spell+"_row";
   var number = document.createTextNode(bodyElement.rows.length);
   row.insertCell(0).appendChild(number);
-  var namn = document.createTextNode(spells[spell]["namn"]);
-  row.insertCell(1).appendChild(namn);
+
+  var name = document.createTextNode(spells[spell]["namn"]+" ");  
+  //add source link
+  var refLink = document.createElement("a");
+  var linkText = document.createTextNode("?");
+  refLink.appendChild(linkText);
+  refLink.href = spells[spell]["source"]["url"];
+  refLink.target = "reference";
+  
+  var nameCell = row.insertCell(1);
+  nameCell.appendChild(name);
+  nameCell.appendChild(refLink);
+  
   row.insertCell(2).appendChild(document.createTextNode(spells[spell]["skolvärde"]));
   var k = document.createElement("input");
   k.spell = spell;
@@ -2557,14 +2579,14 @@ function remove_spell(spell) {
   </head>
   <body onload="calculate(); set_profession_attribute_requirements();">
     <div>Bakgrundspoäng <span id="bp_value"></span></div>
-    <div>Ras: <select id="select_race" onclick="calculate();">
+    <div>Ras  <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=10" target="reference">?</a> <select id="select_race" onclick="calculate();">
         <option value='anka'>Anka</option>
         <option value='dvärg'>Dvärg</option>
         <option value='halvalv'>Halvalv</option>
         <option value='halvlängdsman'>Halvlängdsman</option>
         <option value='halvorch'>Halvorch</option>
         <option value='människa'>Människa</option>
-      </select> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=10" target="reference">?</a>
+      </select>
     </div>
     <div>
       <table>
@@ -2644,20 +2666,20 @@ function remove_spell(spell) {
             <option value="tjuv">Tjuv</option>
             <option value="utbygdsjägare">Utbygdsjägare</option>
           </select></div>
-    <div>KP <span id="kp_val"></span> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=25" target="reference">?</a></div>
-    <div>Skadebonus <span id="sb_val"></span> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a></div>
-    <div>Förflyttning <span id="förflyttning_val"></span> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a></div>
-    <div>Särskilda förmågor <input id="särskilda_förmågor_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T20: <input id="särskilda_förmågor_slag" type="number" value="21" min="2" max="40" onclick="calculate();" /> = <span id="särskilda_förmågor_res"></span>: <span id="särskilda_förmågor_text"></span> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a></div>
-    <div>Svärdshand <input id="svärdshand_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="svärdshand_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="svärdshand_res"> </span>: <span id="svärdshand_text"></span> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a></div>
-    <div>Socialt stånd <input id="socialt_stånd_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="socialt_stånd_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="socialt_stånd_res"></span>: <span id="socialt_stånd_text"></span> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a></div>
-    <div>Startkapital <input id="startkapital_val" type="number" value="0" min="0" onclick="calculate();" /> + <span id="halva_socialt_stånd_val"></span> + 2T6: <input id="startkapital_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="startkapital_res"></span>: <span id="startkapital_sm"></span> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a></div>
-    <div>Ålder
+    <div>KP <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=25" target="reference">?</a> <span id="kp_val"></span></div>
+    <div>Skadebonus <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a> <span id="sb_val"></span></div>
+    <div>Förflyttning <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a> <span id="förflyttning_val"></span></div>
+    <div>Särskilda förmågor <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a> <input id="särskilda_förmågor_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T20: <input id="särskilda_förmågor_slag" type="number" value="21" min="2" max="40" onclick="calculate();" /> = <span id="särskilda_förmågor_res"></span>: <span id="särskilda_förmågor_text"></span></div>
+    <div>Svärdshand <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="svärdshand_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="svärdshand_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="svärdshand_res"> </span>: <span id="svärdshand_text"></span></div>
+    <div>Socialt stånd <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="socialt_stånd_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="socialt_stånd_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="socialt_stånd_res"></span>: <span id="socialt_stånd_text"></span></div>
+    <div>Startkapital <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="startkapital_val" type="number" value="0" min="0" onclick="calculate();" /> + <span id="halva_socialt_stånd_val"></span> + 2T6: <input id="startkapital_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="startkapital_res"></span>: <span id="startkapital_sm"></span></div>
+    <div>Ålder <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=29" target="reference">?</a>
       <select id="select_age" onclick="calculate();">
         <option value="ung">Ung</option>
         <option value="mogen">Mogen</option>
         <option value="medelålders">Medelålders</option>
         <option value="gammal">Gammal</option>
-      </select> <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=29" target="reference">?</a>
+      </select>
     </div>
     <div>Erfarenhetspoäng <span id="ep_val"></span></div>
     <div>
