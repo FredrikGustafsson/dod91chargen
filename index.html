@@ -2391,13 +2391,12 @@ function set_spells() {
     var row = rows[i];
     //console.log("row: "+row);
     var cells = row.getElementsByTagName("td");
-    var kInputEl = cells[2].children[0];
+    var kInputEl = cells[3].children[0];
     //console.log("kInputEl: "+kInputEl);
     var spell = kInputEl.spell;
     //console.log("spell: "+spell);
     var k = kInputEl.valueAsNumber;
     //console.log("k: "+k);
-    cells[4].innerHTML = k;
     var schoolValue = spells[spell]["skolvärde"];
     //console.log("spells['"+spell+"']: "+spells[spell]);
     //console.log("schoolValue: "+schoolValue);
@@ -2405,9 +2404,24 @@ function set_spells() {
     //console.log("spell_cost("+schoolValue+"): "+spell_cost(schoolValue));
     var cost = get_skill_cost(0, k) * spell_cost(schoolValue);
     total_cost += cost;
-    cells[3].innerHTML = cost;
-    cells[4].innerHTML = k;
+    cells[4].innerHTML = cost;
+    cells[5].innerHTML = k;
   }
+  
+  /* todo
+   * var total_cost = 0;
+  var spells = character["spells"];
+  for(var si = 0; si < spells.length; si++) {
+    var spell_id = spells[si];
+    var spell = spells[spell_id];
+    var raised = document.getElementById(spell_id+"_k").valueAsNumber;
+    var cost = get_skill_ocst(0, raised) * spell_cost(spell["skolvärde"]);
+    total_cost += cost;
+    document.getElementById(spell_id+"_sv").innerHTML = spell["skolvärde"];
+    document.getElementById(spell_id+"_cost").innerHTML = cost;
+    document.getElementById(spell_id+"_s").innerHTML = raised;
+  }
+  */
   return total_cost;
 }
 
