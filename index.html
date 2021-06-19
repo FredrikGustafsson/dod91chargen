@@ -1882,6 +1882,12 @@ lite utöver det vanliga. Människor passar bra till alla yrken.",
       epVal(ep);
     }
 
+    function rollDice(min, max, value) {
+      document.getElementById(value).value = (min-1) + Math.ceil(Math.random() * (max-min + 1))
+      calculate();
+    }
+
+
     function get_race() {
       var race_element = document.getElementById("select_race");
       return race_element.options[race_element.selectedIndex].value;
@@ -2713,10 +2719,11 @@ lite utöver det vanliga. Människor passar bra till alla yrken.",
 <div>KP <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=25" target="reference">?</a> <span id="kp_val"></span></div>
 <div>Skadebonus <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a> <span id="sb_val"></span></div>
 <div>Förflyttning <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a> <span id="förflyttning_val"></span></div>
-<div>Särskilda förmågor <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a> <input id="särskilda_förmågor_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T20: <input id="särskilda_förmågor_slag" type="number" value="21" min="2" max="40" onclick="calculate();" /> = <span id="särskilda_förmågor_res"></span>: <span id="särskilda_förmågor_text"></span></div>
-<div>Svärdshand <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="svärdshand_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="svärdshand_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="svärdshand_res"> </span>: <span id="svärdshand_text"></span></div>
-<div>Socialt stånd <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="socialt_stånd_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="socialt_stånd_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="socialt_stånd_res"></span>: <span id="socialt_stånd_text"></span></div>
-<div>Startkapital <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="startkapital_val" type="number" value="0" min="0" onclick="calculate();" /> + <span id="halva_socialt_stånd_val"></span> + 2T6: <input id="startkapital_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> = <span id="startkapital_res"></span>: <span id="startkapital_sm"></span></div>
+<div>Särskilda förmågor <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=26" target="reference">?</a> <input id="särskilda_förmågor_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T20: <input id="särskilda_förmågor_slag" type="number" value="21" min="2" max="40" onclick="calculate();" /> <button onclick="rollDice(2,40,'särskilda_förmågor_slag')">rulla tärning</button> = <span id="särskilda_förmågor_res"></span>: <span id="särskilda_förmågor_text"></span></div>
+
+<div>Svärdshand <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="svärdshand_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="svärdshand_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> <button onclick="rollDice(2,12,'svärdshand_slag')">rulla tärning</button> = <span id="svärdshand_res"> </span>: <span id="svärdshand_text"></span></div>
+<div>Socialt stånd <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="socialt_stånd_val" type="number" value="0" min="0" onclick="calculate();" /> + 2T6: <input id="socialt_stånd_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> <button onclick="rollDice(2,12,'socialt_stånd_slag')">rulla tärning</button> = <span id="socialt_stånd_res"></span>: <span id="socialt_stånd_text"></span></div>
+<div>Startkapital <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=28" target="reference">?</a> <input id="startkapital_val" type="number" value="0" min="0" onclick="calculate();" /> + <span id="halva_socialt_stånd_val"></span> + 2T6: <input id="startkapital_slag" type="number" value="7" min="2" max = "12" onclick="calculate();"/> <button onclick="rollDice(2,12,'startkapital_slag')">rulla tärning</button> = <span id="startkapital_res"></span>: <span id="startkapital_sm"></span></div>
 <div>Ålder <a href="http://www.riotminds.se/downloads/OLD/40a.pdf#page=29" target="reference">?</a>
   <select id="select_age" onclick="calculate();">
     <option value="ung">Ung</option>
