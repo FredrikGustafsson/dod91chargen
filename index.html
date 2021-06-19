@@ -9,6 +9,8 @@ and open the template in the editor.
   <title>Drakar &amp; Demoner '91 Karaktärsgenerator</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
   <script>
     var attributes = {
       "sty": "STY",
@@ -1877,6 +1879,7 @@ lite utöver det vanliga. Människor passar bra till alla yrken.",
       set_available_spells();
       ep -= set_spells();
       set_ep(ep+(bp*5));
+      epVal(ep);
     }
 
     function get_race() {
@@ -2041,6 +2044,11 @@ lite utöver det vanliga. Människor passar bra till alla yrken.",
 
     function set_ep(ep) {
       ep_val = document.getElementById("ep_val");
+      ep_val.innerHTML = ep;
+    }
+
+    function epVal(ep) {
+      ep_val = document.getElementById("epVal");
       ep_val.innerHTML = ep;
     }
 
@@ -2626,7 +2634,7 @@ lite utöver det vanliga. Människor passar bra till alla yrken.",
 </div>
 <div>
   <table>
-    <caption>Grundegenskaper</caption>
+    <b>Grundegenskaper</b>
     <thead></thead>
     <tr>
       <th>Namn</th>
@@ -2717,10 +2725,11 @@ lite utöver det vanliga. Människor passar bra till alla yrken.",
     <option value="gammal">Gammal</option>
   </select>
 </div>
-<div>Färdighetspoäng (Erfarenhetspoäng+(Bakgrundspoäng * 5)) <span id="ep_val"></span></div>
+<div>Erfarenhetspoäng: <span id="epVal"></span></div>
+<div>Färdighetspoäng (Erfarenhetspoäng+(Bakgrundspoäng kvar * 5)): <span id="ep_val"></span></div>
 <div>
   <table>
-    <caption>Primära färdigheter</caption>
+    <b>Primära färdigheter</b>
     <thead>
     <tr>
       <th>Namn</th>
@@ -2757,7 +2766,7 @@ lite utöver det vanliga. Människor passar bra till alla yrken.",
 <div>
   <select id="add_skill_select" ></select> <button onclick="add_skill();">Lägg till</button>
   <table>
-    <caption>Yrkesfärdigheter</caption>
+    <div><b>Yrkesfärdigheter</b></div>
     <thead>
     <tr>
       <th>#</th>
@@ -2776,7 +2785,7 @@ lite utöver det vanliga. Människor passar bra till alla yrken.",
 <div>
   <select id="add_spell_select" ></select> <button onclick="add_spell();">Lägg till</button>
   <table>
-    <caption>Besvärjelser</caption>
+    <div><b>Besvärjelser</b></div>
     <thead>
     <tr>
       <th>#</th>
